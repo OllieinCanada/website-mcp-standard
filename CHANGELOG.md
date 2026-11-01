@@ -15,3 +15,4 @@ First public draft.
 - Security, privacy and trust requirements.
 - JSON Schemas for all tool inputs and outputs, examples, and a validation script.
 - AI4Enterprise mapping and alignment plan as the reference implementation.
+- Licensing: specification text under CC BY 4.0; schemas, examples and tools under Apache 2.0.

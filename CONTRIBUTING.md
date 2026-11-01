@@ -22,6 +22,10 @@ Thank you for helping make websites usable by agents in a consistent way.
 4. **Requirement IDs are permanent.** Do not renumber existing IDs. Retire an obsolete ID by marking it *removed* rather than reusing it.
 5. **Record changes** in `CHANGELOG.md`.
 
+## Licensing of contributions
+
+By submitting a contribution you agree that it is licensed under the same terms as the files it changes: changes to the specification and other Markdown documents under [CC BY 4.0](LICENSE-SPEC), and changes to `schemas/`, `examples/` and `tools/` under the [Apache License 2.0](LICENSE). See [NOTICE](NOTICE). You must have the right to submit the work.
+
 ## Decision process (v0.x)
 
 Until there are several independent implementations, the maintainers (initially AI4 Enterprise) edit the draft and decide by rough consensus in issues and pull requests. Substantial proposals, such as new profiles, should start as an issue that describes the use case. A more formal governance model will be proposed before 1.0.

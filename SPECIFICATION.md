@@ -10,7 +10,10 @@
 | **Editors** | AI4 Enterprise |
 | **Reference implementation** | [AI4Enterprise](https://www.ai4enterprise.ca/) — `https://www.ai4enterprise.ca/mcp` (alignment in progress, see §12) |
 | **Repository** | <https://github.com/steveh250/website-mcp-standard> |
+| **License** | Text: [CC BY 4.0](LICENSE-SPEC) · Schemas and examples: [Apache 2.0](LICENSE) |
 
+> Copyright 2026 AI4 Enterprise and ARWP contributors. This document is licensed under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). Anyone may implement it.
+>
 > **Status of this document.** This is a proposed draft and is **not stable**. It is published to gather implementation experience and feedback. Breaking changes may happen before 1.0. Please file issues against this repository.
 
 ---
