@@ -78,7 +78,7 @@ Feedback is very welcome, especially from people implementing ARWP on real sites
 
 ## License
 
-Copyright 2026 AI4 Enterprise and ARWP contributors.
+Copyright 2026 AI4 Enterprise Corp. and ARWP contributors.
 
 - **Specification and documentation** (`SPECIFICATION.md` and the other Markdown files): [CC BY 4.0](LICENSE-SPEC). You may share and adapt them, with attribution.
 - **Schemas, examples and tools** (`schemas/`, `examples/`, `tools/`): [Apache License 2.0](LICENSE). You may use them freely in your own implementations, open or commercial.
