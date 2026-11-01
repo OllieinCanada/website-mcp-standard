@@ -1,0 +1,17 @@
+{
+  "status": "ok",
+  "total": 1,
+  "results": [
+    {
+      "id": "ai-governance-for-small-teams",
+      "title": "AI Governance for Small Teams",
+      "url": "https://www.example.com/insights/ai-governance-for-small-teams",
+      "summary": "A lightweight governance model that does not need a dedicated department.",
+      "type": "article",
+      "published_at": "2026-10-05",
+      "authors": ["Alex Rivera"],
+      "topics": ["governance"]
+    }
+  ],
+  "next_cursor": null
+}

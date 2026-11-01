@@ -1,0 +1,181 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:arwp:0.1:core:get_contact:output",
+  "title": "get_contact output",
+  "description": "Public contact and engagement channels. These are links for the user to act on; get_contact never sends a message.",
+  "type": "object",
+  "required": [
+    "status"
+  ],
+  "properties": {
+    "status": {
+      "type": "string",
+      "enum": [
+        "ok",
+        "not_applicable",
+        "invalid_request",
+        "not_found",
+        "unauthorized",
+        "forbidden",
+        "rate_limited",
+        "unavailable",
+        "internal_error"
+      ],
+      "description": "Outcome of the call. See SPECIFICATION.md section 7."
+    },
+    "error": {
+      "$ref": "#/$defs/error"
+    },
+    "reason": {
+      "type": "string",
+      "description": "Required when status is not_applicable: why this category does not apply to the site."
+    },
+    "contact_url": {
+      "$ref": "#/$defs/https_url",
+      "description": "The site's human contact page."
+    },
+    "channels": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "type"
+        ],
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "email",
+              "phone",
+              "form",
+              "booking",
+              "chat",
+              "address",
+              "social",
+              "support",
+              "other"
+            ]
+          },
+          "label": {
+            "type": "string",
+            "description": "e.g. 'Sales', 'LinkedIn', 'Book a discovery call'."
+          },
+          "value": {
+            "type": "string",
+            "description": "Email address, phone number (E.164 preferred) or postal address."
+          },
+          "url": {
+            "type": "string",
+            "format": "uri",
+            "description": "mailto:, tel: or https: link for this channel."
+          },
+          "purpose": {
+            "type": "string",
+            "description": "What this channel is for."
+          },
+          "hours": {
+            "type": "string",
+            "description": "When the channel is staffed, if relevant."
+          }
+        },
+        "anyOf": [
+          {
+            "required": [
+              "value"
+            ]
+          },
+          {
+            "required": [
+              "url"
+            ]
+          }
+        ]
+      }
+    },
+    "ext": {
+      "$ref": "#/$defs/ext"
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "const": "ok"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "channels"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "enum": [
+              "invalid_request",
+              "not_found",
+              "unauthorized",
+              "forbidden",
+              "rate_limited",
+              "unavailable",
+              "internal_error"
+            ]
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "error"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "const": "not_applicable"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "reason"
+        ]
+      }
+    }
+  ],
+  "$defs": {
+    "error": {
+      "type": "object",
+      "description": "Present when status is an error status.",
+      "required": [
+        "message"
+      ],
+      "properties": {
+        "message": {
+          "type": "string",
+          "description": "Human-readable explanation."
+        },
+        "retry_after_seconds": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "For rate_limited/unavailable: when the client may retry."
+        }
+      }
+    },
+    "ext": {
+      "type": "object",
+      "description": "Site-specific extension fields. Clients MUST ignore members they do not understand."
+    },
+    "https_url": {
+      "type": "string",
+      "format": "uri",
+      "pattern": "^https://",
+      "description": "Absolute HTTPS URL."
+    }
+  }
+}

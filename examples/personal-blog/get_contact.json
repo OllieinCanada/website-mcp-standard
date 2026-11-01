@@ -1,0 +1,7 @@
+{
+  "status": "ok",
+  "contact_url": "https://example.org/about",
+  "channels": [
+    { "type": "social", "label": "Mastodon", "url": "https://mastodon.example/@fieldnotes" }
+  ]
+}

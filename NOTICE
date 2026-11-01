@@ -1,0 +1,17 @@
+Agent-Ready Web Profile (ARWP)
+Copyright 2026 AI4 Enterprise Corp. and ARWP contributors
+
+This repository is dual-licensed by content type:
+
+  * Specification and documentation (SPECIFICATION.md, README.md,
+    CHANGELOG.md, CONTRIBUTING.md and other prose documents) are licensed
+    under the Creative Commons Attribution 4.0 International License
+    (CC BY 4.0). See LICENSE-SPEC or
+    https://creativecommons.org/licenses/by/4.0/
+
+  * JSON Schemas (schemas/), examples (examples/) and tools (tools/) are
+    licensed under the Apache License, Version 2.0. See LICENSE or
+    https://www.apache.org/licenses/LICENSE-2.0
+
+Implementing the specification on a website, in an MCP server or in an
+agent does not require any licence from the maintainers.

@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:arwp:0.1:insights:latest_insights:input",
+  "title": "latest_insights input",
+  "description": "Most recently published insights, optionally filtered.",
+  "type": "object",
+  "properties": {
+    "limit": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 50,
+      "default": 10,
+      "description": "Maximum number of items to return (default 10). Servers MAY return fewer."
+    },
+    "topic": {
+      "type": "string",
+      "description": "Topic id from list_topics."
+    },
+    "series": {
+      "type": "string",
+      "description": "Series id from list_topics."
+    }
+  }
+}

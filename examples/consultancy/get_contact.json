@@ -1,0 +1,9 @@
+{
+  "status": "ok",
+  "contact_url": "https://www.example.com/contact",
+  "channels": [
+    { "type": "booking", "label": "Book a discovery call", "url": "https://www.example.com/book" },
+    { "type": "email", "label": "General enquiries", "value": "hello@example.com", "url": "mailto:hello@example.com" },
+    { "type": "social", "label": "LinkedIn", "url": "https://www.linkedin.com/company/example" }
+  ]
+}

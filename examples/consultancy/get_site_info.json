@@ -1,0 +1,32 @@
+{
+  "status": "ok",
+  "arwp": {
+    "version": "0.1",
+    "profiles": ["core", "insights"],
+    "extensions": [
+      { "tool": "get_company_profile", "description": "Detailed experience, qualifications and supporting evidence." }
+    ]
+  },
+  "name": "Northwind Advisory",
+  "description": "Independent consultancy helping mid-sized organisations plan and adopt AI.",
+  "canonical_url": "https://www.example.com/",
+  "language": "en-CA",
+  "site_type": "business",
+  "operator": {
+    "name": "Northwind Advisory",
+    "legal_name": "Northwind Advisory Inc.",
+    "url": "https://www.example.com/",
+    "location": "Victoria, BC, Canada"
+  },
+  "sections": [
+    { "id": "about", "title": "About", "url": "https://www.example.com/about" },
+    { "id": "services", "title": "Services", "url": "https://www.example.com/services" },
+    { "id": "insights", "title": "Insights", "url": "https://www.example.com/insights" },
+    { "id": "contact", "title": "Contact", "url": "https://www.example.com/contact" }
+  ],
+  "updated_at": "2026-10-28T17:00:00Z",
+  "related": {
+    "llms_txt": "https://www.example.com/llms.txt",
+    "sitemap": "https://www.example.com/sitemap.xml"
+  }
+}

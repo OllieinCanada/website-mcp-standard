@@ -1,0 +1,177 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:arwp:0.1:core:search_site:output",
+  "title": "search_site output",
+  "description": "Site-wide search results. No matches is status ok with an empty results array.",
+  "type": "object",
+  "required": [
+    "status"
+  ],
+  "properties": {
+    "status": {
+      "type": "string",
+      "enum": [
+        "ok",
+        "invalid_request",
+        "not_found",
+        "unauthorized",
+        "forbidden",
+        "rate_limited",
+        "unavailable",
+        "internal_error"
+      ],
+      "description": "Outcome of the call. See SPECIFICATION.md section 7."
+    },
+    "error": {
+      "$ref": "#/$defs/error"
+    },
+    "query": {
+      "type": "string"
+    },
+    "results": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "title",
+          "url"
+        ],
+        "properties": {
+          "id": {
+            "$ref": "#/$defs/id",
+            "description": "Page identifier accepted by get_page."
+          },
+          "title": {
+            "type": "string",
+            "minLength": 1
+          },
+          "url": {
+            "$ref": "#/$defs/https_url",
+            "description": "Canonical URL; also accepted by get_page."
+          },
+          "summary": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string",
+            "description": "Recommended values: page, article, service, product, event, person, faq, other."
+          },
+          "section": {
+            "type": "string",
+            "description": "id of the get_site_info section this result belongs to, if any."
+          },
+          "published_at": {
+            "$ref": "#/$defs/timestamp"
+          },
+          "updated_at": {
+            "$ref": "#/$defs/timestamp"
+          }
+        }
+      }
+    },
+    "next_cursor": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/cursor"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "ext": {
+      "$ref": "#/$defs/ext"
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "const": "ok"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "results"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "enum": [
+              "invalid_request",
+              "not_found",
+              "unauthorized",
+              "forbidden",
+              "rate_limited",
+              "unavailable",
+              "internal_error"
+            ]
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "error"
+        ]
+      }
+    }
+  ],
+  "$defs": {
+    "cursor": {
+      "type": "string",
+      "description": "Opaque pagination token. Absent or null when there are no more results."
+    },
+    "error": {
+      "type": "object",
+      "description": "Present when status is an error status.",
+      "required": [
+        "message"
+      ],
+      "properties": {
+        "message": {
+          "type": "string",
+          "description": "Human-readable explanation."
+        },
+        "retry_after_seconds": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "For rate_limited/unavailable: when the client may retry."
+        }
+      }
+    },
+    "ext": {
+      "type": "object",
+      "description": "Site-specific extension fields. Clients MUST ignore members they do not understand."
+    },
+    "https_url": {
+      "type": "string",
+      "format": "uri",
+      "pattern": "^https://",
+      "description": "Absolute HTTPS URL."
+    },
+    "id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 512,
+      "description": "Stable identifier, unique within its collection on this site."
+    },
+    "timestamp": {
+      "type": "string",
+      "description": "RFC 3339 date-time (e.g. 2026-11-01T09:00:00Z) or full-date (e.g. 2026-11-01).",
+      "anyOf": [
+        {
+          "format": "date-time"
+        },
+        {
+          "format": "date"
+        }
+      ]
+    }
+  }
+}

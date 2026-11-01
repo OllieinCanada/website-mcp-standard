@@ -1,0 +1,274 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:arwp:0.1:core:get_site_info:output",
+  "title": "get_site_info output",
+  "description": "Identity of the website and its operator, its primary sections, and its ARWP declaration.",
+  "type": "object",
+  "required": [
+    "status"
+  ],
+  "properties": {
+    "status": {
+      "type": "string",
+      "enum": [
+        "ok",
+        "invalid_request",
+        "not_found",
+        "unauthorized",
+        "forbidden",
+        "rate_limited",
+        "unavailable",
+        "internal_error"
+      ],
+      "description": "Outcome of the call. See SPECIFICATION.md section 7."
+    },
+    "error": {
+      "$ref": "#/$defs/error"
+    },
+    "arwp": {
+      "type": "object",
+      "description": "ARWP declaration (section 6).",
+      "required": [
+        "version",
+        "profiles"
+      ],
+      "properties": {
+        "version": {
+          "type": "string",
+          "pattern": "^[0-9]+\\.[0-9]+$",
+          "description": "ARWP version implemented, e.g. '0.1'."
+        },
+        "profiles": {
+          "type": "array",
+          "description": "Profiles claimed. MUST include 'core'.",
+          "items": {
+            "type": "string"
+          },
+          "contains": {
+            "const": "core"
+          },
+          "uniqueItems": true
+        },
+        "extensions": {
+          "type": "array",
+          "description": "Optional list of site-specific tools beyond the ARWP profiles.",
+          "items": {
+            "type": "object",
+            "required": [
+              "tool"
+            ],
+            "properties": {
+              "tool": {
+                "type": "string"
+              },
+              "description": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Name of the website."
+    },
+    "description": {
+      "type": "string",
+      "minLength": 1,
+      "description": "One or two sentences on what the site is for."
+    },
+    "canonical_url": {
+      "$ref": "#/$defs/https_url",
+      "description": "Canonical home page URL. Its host is the canonical host for /mcp."
+    },
+    "language": {
+      "$ref": "#/$defs/language"
+    },
+    "site_type": {
+      "type": "string",
+      "enum": [
+        "business",
+        "individual",
+        "government",
+        "education",
+        "nonprofit",
+        "publication",
+        "community",
+        "other"
+      ],
+      "description": "Broad classification of the site."
+    },
+    "operator": {
+      "type": "object",
+      "description": "Organisation or person responsible for the site and its content.",
+      "required": [
+        "name"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "legal_name": {
+          "type": "string"
+        },
+        "url": {
+          "$ref": "#/$defs/https_url"
+        },
+        "location": {
+          "type": "string",
+          "description": "Public location, e.g. 'Victoria, BC, Canada'."
+        }
+      }
+    },
+    "sections": {
+      "type": "array",
+      "minItems": 1,
+      "description": "Primary sections of the site (typically the main navigation).",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "title",
+          "url"
+        ],
+        "properties": {
+          "id": {
+            "$ref": "#/$defs/id"
+          },
+          "title": {
+            "type": "string",
+            "minLength": 1
+          },
+          "url": {
+            "$ref": "#/$defs/https_url"
+          },
+          "description": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "updated_at": {
+      "$ref": "#/$defs/timestamp"
+    },
+    "related": {
+      "type": "object",
+      "description": "Other machine-readable resources the site publishes.",
+      "properties": {
+        "llms_txt": {
+          "$ref": "#/$defs/https_url"
+        },
+        "sitemap": {
+          "$ref": "#/$defs/https_url"
+        },
+        "agent_card": {
+          "$ref": "#/$defs/https_url",
+          "description": "A2A Agent Card, if the site operates an agent."
+        }
+      }
+    },
+    "ext": {
+      "$ref": "#/$defs/ext"
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "const": "ok"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "arwp",
+          "name",
+          "description",
+          "canonical_url",
+          "language",
+          "site_type",
+          "sections"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "enum": [
+              "invalid_request",
+              "not_found",
+              "unauthorized",
+              "forbidden",
+              "rate_limited",
+              "unavailable",
+              "internal_error"
+            ]
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "error"
+        ]
+      }
+    }
+  ],
+  "$defs": {
+    "error": {
+      "type": "object",
+      "description": "Present when status is an error status.",
+      "required": [
+        "message"
+      ],
+      "properties": {
+        "message": {
+          "type": "string",
+          "description": "Human-readable explanation."
+        },
+        "retry_after_seconds": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "For rate_limited/unavailable: when the client may retry."
+        }
+      }
+    },
+    "ext": {
+      "type": "object",
+      "description": "Site-specific extension fields. Clients MUST ignore members they do not understand."
+    },
+    "https_url": {
+      "type": "string",
+      "format": "uri",
+      "pattern": "^https://",
+      "description": "Absolute HTTPS URL."
+    },
+    "id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 512,
+      "description": "Stable identifier, unique within its collection on this site."
+    },
+    "language": {
+      "type": "string",
+      "description": "BCP 47 language tag, e.g. 'en' or 'en-CA'.",
+      "pattern": "^[A-Za-z]{2,3}(-[A-Za-z0-9]{1,8})*$"
+    },
+    "timestamp": {
+      "type": "string",
+      "description": "RFC 3339 date-time (e.g. 2026-11-01T09:00:00Z) or full-date (e.g. 2026-11-01).",
+      "anyOf": [
+        {
+          "format": "date-time"
+        },
+        {
+          "format": "date"
+        }
+      ]
+    }
+  }
+}

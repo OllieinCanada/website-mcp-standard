@@ -1,0 +1,20 @@
+{
+  "status": "ok",
+  "results": [
+    {
+      "id": "is-your-website-ready-for-agents",
+      "title": "Is Your Website Ready for Non-Human Visitors?",
+      "url": "https://www.example.com/insights/is-your-website-ready-for-agents",
+      "published_at": "2026-10-26",
+      "topics": ["agents"],
+      "series": "sunday-coffee-code"
+    },
+    {
+      "id": "ai-governance-for-small-teams",
+      "title": "AI Governance for Small Teams",
+      "url": "https://www.example.com/insights/ai-governance-for-small-teams",
+      "published_at": "2026-10-05",
+      "topics": ["governance"]
+    }
+  ]
+}

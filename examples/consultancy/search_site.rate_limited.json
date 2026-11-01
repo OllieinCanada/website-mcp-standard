@@ -1,0 +1,4 @@
+{
+  "status": "rate_limited",
+  "error": { "message": "Too many requests. Please retry later.", "retry_after_seconds": 30 }
+}
