@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:arwp:0.1:insights:get_insight:input",
+  "title": "get_insight input",
+  "description": "Identify the insight by exactly one of id or url.",
+  "type": "object",
+  "properties": {
+    "id": {
+      "$ref": "#/$defs/id"
+    },
+    "url": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Absolute URL or root-relative path of the insight."
+    }
+  },
+  "$defs": {
+    "id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 512,
+      "description": "Stable identifier, unique within its collection on this site."
+    }
+  }
+}

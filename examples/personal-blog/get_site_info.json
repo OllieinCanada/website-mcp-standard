@@ -1,0 +1,14 @@
+{
+  "status": "ok",
+  "arwp": { "version": "0.1", "profiles": ["core"] },
+  "name": "Field Notes",
+  "description": "A personal blog about birdwatching on Vancouver Island.",
+  "canonical_url": "https://example.org/",
+  "language": "en",
+  "site_type": "individual",
+  "operator": { "name": "Sam Lee" },
+  "sections": [
+    { "id": "posts", "title": "Posts", "url": "https://example.org/posts" },
+    { "id": "about", "title": "About", "url": "https://example.org/about" }
+  ]
+}

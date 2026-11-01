@@ -1,0 +1,25 @@
+{
+  "status": "ok",
+  "query": "governance",
+  "results": [
+    {
+      "id": "services/ai-strategy",
+      "title": "AI Strategy and Roadmap",
+      "url": "https://www.example.com/services/ai-strategy",
+      "summary": "Includes an AI governance and risk framework tailored to your organisation.",
+      "type": "service",
+      "section": "services",
+      "updated_at": "2026-09-14"
+    },
+    {
+      "id": "insights/ai-governance-for-small-teams",
+      "title": "AI Governance for Small Teams",
+      "url": "https://www.example.com/insights/ai-governance-for-small-teams",
+      "summary": "A lightweight governance model that does not need a dedicated department.",
+      "type": "article",
+      "section": "insights",
+      "published_at": "2026-10-05"
+    }
+  ],
+  "next_cursor": null
+}

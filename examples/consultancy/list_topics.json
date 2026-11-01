@@ -1,0 +1,11 @@
+{
+  "status": "ok",
+  "total_insights": 42,
+  "topics": [
+    { "id": "governance", "name": "AI Governance", "count": 11 },
+    { "id": "agents", "name": "Agents and the Agentic Web", "count": 9 }
+  ],
+  "series": [
+    { "id": "sunday-coffee-code", "name": "Sunday Coffee & Code", "description": "Weekly hands-on notes.", "count": 20 }
+  ]
+}

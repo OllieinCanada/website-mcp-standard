@@ -1,0 +1,8 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:arwp:0.1:insights:list_topics:input",
+  "title": "list_topics input",
+  "description": "list_topics takes no arguments.",
+  "type": "object",
+  "properties": {}
+}

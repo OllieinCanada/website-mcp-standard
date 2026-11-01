@@ -1,0 +1,205 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:arwp:0.1:insights:get_insight:output",
+  "title": "get_insight output",
+  "description": "One complete insight with metadata.",
+  "type": "object",
+  "required": [
+    "status"
+  ],
+  "properties": {
+    "status": {
+      "type": "string",
+      "enum": [
+        "ok",
+        "not_found",
+        "invalid_request",
+        "unauthorized",
+        "forbidden",
+        "rate_limited",
+        "unavailable",
+        "internal_error"
+      ],
+      "description": "Outcome of the call. See SPECIFICATION.md section 7."
+    },
+    "error": {
+      "$ref": "#/$defs/error"
+    },
+    "id": {
+      "$ref": "#/$defs/id",
+      "description": "Stable identifier (typically the slug), accepted by get_insight."
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1
+    },
+    "url": {
+      "$ref": "#/$defs/https_url"
+    },
+    "summary": {
+      "type": "string"
+    },
+    "type": {
+      "type": "string",
+      "description": "Recommended values: article, news, research, case_study, video, podcast, other."
+    },
+    "published_at": {
+      "$ref": "#/$defs/timestamp"
+    },
+    "updated_at": {
+      "$ref": "#/$defs/timestamp"
+    },
+    "authors": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "topics": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Topic ids from list_topics."
+    },
+    "series": {
+      "type": "string",
+      "description": "Series id from list_topics, if part of a series."
+    },
+    "language": {
+      "$ref": "#/$defs/language"
+    },
+    "content_format": {
+      "$ref": "#/$defs/content_format"
+    },
+    "content": {
+      "type": "string"
+    },
+    "references": {
+      "type": "array",
+      "description": "Sources cited by the insight.",
+      "items": {
+        "type": "object",
+        "required": [
+          "url"
+        ],
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "url": {
+            "type": "string",
+            "format": "uri"
+          }
+        }
+      }
+    },
+    "ext": {
+      "$ref": "#/$defs/ext"
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "const": "ok"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "id",
+          "title",
+          "url",
+          "published_at",
+          "content_format",
+          "content"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "enum": [
+              "not_found",
+              "invalid_request",
+              "unauthorized",
+              "forbidden",
+              "rate_limited",
+              "unavailable",
+              "internal_error"
+            ]
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "error"
+        ]
+      }
+    }
+  ],
+  "$defs": {
+    "content_format": {
+      "type": "string",
+      "enum": [
+        "text/markdown",
+        "text/plain"
+      ],
+      "description": "Media type of the content field."
+    },
+    "error": {
+      "type": "object",
+      "description": "Present when status is an error status.",
+      "required": [
+        "message"
+      ],
+      "properties": {
+        "message": {
+          "type": "string",
+          "description": "Human-readable explanation."
+        },
+        "retry_after_seconds": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "For rate_limited/unavailable: when the client may retry."
+        }
+      }
+    },
+    "ext": {
+      "type": "object",
+      "description": "Site-specific extension fields. Clients MUST ignore members they do not understand."
+    },
+    "https_url": {
+      "type": "string",
+      "format": "uri",
+      "pattern": "^https://",
+      "description": "Absolute HTTPS URL."
+    },
+    "id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 512,
+      "description": "Stable identifier, unique within its collection on this site."
+    },
+    "language": {
+      "type": "string",
+      "description": "BCP 47 language tag, e.g. 'en' or 'en-CA'.",
+      "pattern": "^[A-Za-z]{2,3}(-[A-Za-z0-9]{1,8})*$"
+    },
+    "timestamp": {
+      "type": "string",
+      "description": "RFC 3339 date-time (e.g. 2026-11-01T09:00:00Z) or full-date (e.g. 2026-11-01).",
+      "anyOf": [
+        {
+          "format": "date-time"
+        },
+        {
+          "format": "date"
+        }
+      ]
+    }
+  }
+}

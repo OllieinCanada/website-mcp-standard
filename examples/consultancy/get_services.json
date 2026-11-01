@@ -1,0 +1,30 @@
+{
+  "status": "ok",
+  "categories": ["Strategy", "Delivery", "Training"],
+  "services": [
+    {
+      "id": "ai-strategy",
+      "name": "AI Strategy and Roadmap",
+      "type": "service",
+      "category": "Strategy",
+      "description": "Assess readiness and produce a prioritised, practical 12-month roadmap.",
+      "url": "https://www.example.com/services/ai-strategy",
+      "audience": "Executive teams",
+      "delivery": "hybrid",
+      "regions": ["CA", "US"],
+      "price": { "text": "Fixed fee, quoted after a discovery call" },
+      "engagement_url": "https://www.example.com/contact"
+    },
+    {
+      "id": "exec-ai-workshop",
+      "name": "Executive AI Workshop",
+      "type": "course",
+      "category": "Training",
+      "description": "A one-day workshop on AI opportunities, risks and governance for leadership teams.",
+      "url": "https://www.example.com/services/exec-ai-workshop",
+      "delivery": "in_person",
+      "price": { "amount": 6000, "currency": "CAD", "unit": "per workshop" }
+    }
+  ],
+  "next_cursor": null
+}

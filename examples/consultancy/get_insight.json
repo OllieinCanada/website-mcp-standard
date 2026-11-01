@@ -1,0 +1,18 @@
+{
+  "status": "ok",
+  "id": "ai-governance-for-small-teams",
+  "title": "AI Governance for Small Teams",
+  "url": "https://www.example.com/insights/ai-governance-for-small-teams",
+  "summary": "A lightweight governance model that does not need a dedicated department.",
+  "type": "article",
+  "published_at": "2026-10-05",
+  "updated_at": "2026-10-07",
+  "authors": ["Alex Rivera"],
+  "topics": ["governance"],
+  "language": "en-CA",
+  "content_format": "text/markdown",
+  "content": "# AI Governance for Small Teams\n\nYou do not need a committee to govern AI well...\n",
+  "references": [
+    { "title": "NIST AI Risk Management Framework", "url": "https://www.nist.gov/itl/ai-risk-management-framework" }
+  ]
+}

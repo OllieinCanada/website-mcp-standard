@@ -1,0 +1,12 @@
+{
+  "status": "ok",
+  "id": "about",
+  "title": "About Northwind Advisory",
+  "url": "https://www.example.com/about",
+  "type": "page",
+  "language": "en-CA",
+  "content_format": "text/markdown",
+  "content": "# About Northwind Advisory\n\nNorthwind Advisory is an independent consultancy based in Victoria, BC.\n\n## How we work\n\nWe follow three stages: **Think** (strategy), **Model** (design and prototyping) and **Act** (delivery and adoption).\n",
+  "truncated": false,
+  "updated_at": "2026-08-01"
+}

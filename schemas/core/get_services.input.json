@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:arwp:0.1:core:get_services:input",
+  "title": "get_services input",
+  "description": "Optional filters and pagination for get_services.",
+  "type": "object",
+  "properties": {
+    "category": {
+      "type": "string",
+      "description": "Return only offerings in this category (values from the categories field)."
+    },
+    "limit": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 100,
+      "default": 50,
+      "description": "Maximum number of items to return (default 50). Servers MAY return fewer."
+    },
+    "cursor": {
+      "$ref": "#/$defs/cursor"
+    }
+  },
+  "$defs": {
+    "cursor": {
+      "type": "string",
+      "description": "Opaque pagination token. Absent or null when there are no more results."
+    }
+  }
+}

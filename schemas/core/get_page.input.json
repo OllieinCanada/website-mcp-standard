@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:arwp:0.1:core:get_page:input",
+  "title": "get_page input",
+  "description": "Identify the page by exactly one of id or url. (Not expressed as oneOf because several MCP clients reject top-level combinators.)",
+  "type": "object",
+  "properties": {
+    "id": {
+      "$ref": "#/$defs/id",
+      "description": "Page id from search_site or a sections entry."
+    },
+    "url": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Absolute URL on one of this site's hosts, or a root-relative path such as '/about'."
+    }
+  },
+  "$defs": {
+    "id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 512,
+      "description": "Stable identifier, unique within its collection on this site."
+    }
+  }
+}
