@@ -1,8 +1,8 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "urn:arwp:0.1:insights:search_insights:output",
-  "title": "search_insights output",
-  "description": "Matching insights, most relevant first (or newest first when no query is given).",
+  "$id": "urn:mcpwp:0.1:extended:latest_insights:output",
+  "title": "latest_insights output",
+  "description": "Insights ordered by published_at, newest first.",
   "type": "object",
   "required": [
     "status"
@@ -20,7 +20,7 @@
         "unavailable",
         "internal_error"
       ],
-      "description": "Outcome of the call. See SPECIFICATION.md section 7."
+      "description": "Outcome of the call. See SPECIFICATION.md section 10."
     },
     "error": {
       "$ref": "#/$defs/error"
@@ -30,21 +30,6 @@
       "items": {
         "$ref": "#/$defs/insight_summary"
       }
-    },
-    "total": {
-      "type": "integer",
-      "minimum": 0,
-      "description": "Total matches, if known."
-    },
-    "next_cursor": {
-      "anyOf": [
-        {
-          "$ref": "#/$defs/cursor"
-        },
-        {
-          "type": "null"
-        }
-      ]
     },
     "ext": {
       "$ref": "#/$defs/ext"
@@ -89,10 +74,6 @@
     }
   ],
   "$defs": {
-    "cursor": {
-      "type": "string",
-      "description": "Opaque pagination token. Absent or null when there are no more results."
-    },
     "error": {
       "type": "object",
       "description": "Present when status is an error status.",

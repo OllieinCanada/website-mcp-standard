@@ -1,0 +1,198 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:mcpwp:0.1:extended:get_person:output",
+  "title": "get_person output",
+  "description": "Full public profile of one person.",
+  "type": "object",
+  "required": [
+    "status"
+  ],
+  "properties": {
+    "status": {
+      "type": "string",
+      "enum": [
+        "ok",
+        "not_found",
+        "invalid_request",
+        "unauthorized",
+        "forbidden",
+        "rate_limited",
+        "unavailable",
+        "internal_error"
+      ],
+      "description": "Outcome of the call. See SPECIFICATION.md section 10."
+    },
+    "error": {
+      "$ref": "#/$defs/error"
+    },
+    "id": {
+      "$ref": "#/$defs/id"
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1
+    },
+    "role": {
+      "type": "string",
+      "description": "Job title or role, e.g. 'Principal Consultant'."
+    },
+    "summary": {
+      "type": "string"
+    },
+    "url": {
+      "$ref": "#/$defs/https_url"
+    },
+    "image_url": {
+      "$ref": "#/$defs/https_url"
+    },
+    "expertise": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "links": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/link"
+      }
+    },
+    "content_format": {
+      "$ref": "#/$defs/content_format"
+    },
+    "content": {
+      "type": "string",
+      "description": "Biography."
+    },
+    "credentials": {
+      "type": "array",
+      "description": "Qualifications, certifications or memberships, with evidence links where available.",
+      "items": {
+        "type": "object",
+        "required": [
+          "name"
+        ],
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "issuer": {
+            "type": "string"
+          },
+          "year": {
+            "type": "integer"
+          },
+          "url": {
+            "type": "string",
+            "format": "uri"
+          }
+        }
+      }
+    },
+    "ext": {
+      "$ref": "#/$defs/ext"
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "const": "ok"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "id",
+          "name"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "enum": [
+              "not_found",
+              "invalid_request",
+              "unauthorized",
+              "forbidden",
+              "rate_limited",
+              "unavailable",
+              "internal_error"
+            ]
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "error"
+        ]
+      }
+    }
+  ],
+  "$defs": {
+    "content_format": {
+      "type": "string",
+      "enum": [
+        "text/markdown",
+        "text/plain"
+      ],
+      "description": "Media type of the content field."
+    },
+    "error": {
+      "type": "object",
+      "description": "Present when status is an error status.",
+      "required": [
+        "message"
+      ],
+      "properties": {
+        "message": {
+          "type": "string",
+          "description": "Human-readable explanation."
+        },
+        "retry_after_seconds": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "For rate_limited/unavailable: when the client may retry."
+        }
+      }
+    },
+    "ext": {
+      "type": "object",
+      "description": "Site-specific extension fields. Clients MUST ignore members they do not understand."
+    },
+    "https_url": {
+      "type": "string",
+      "format": "uri",
+      "pattern": "^https://",
+      "description": "Absolute HTTPS URL."
+    },
+    "id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 512,
+      "description": "Stable identifier, unique within its collection on this site."
+    },
+    "link": {
+      "type": "object",
+      "required": [
+        "url"
+      ],
+      "properties": {
+        "type": {
+          "type": "string",
+          "description": "Recommended: website, email, linkedin, social, booking, other."
+        },
+        "label": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string",
+          "format": "uri"
+        }
+      }
+    }
+  }
+}

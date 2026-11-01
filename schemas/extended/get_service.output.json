@@ -1,0 +1,277 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:mcpwp:0.1:extended:get_service:output",
+  "title": "get_service output",
+  "description": "Full details of one offering listed by get_services.",
+  "type": "object",
+  "required": [
+    "status"
+  ],
+  "properties": {
+    "status": {
+      "type": "string",
+      "enum": [
+        "ok",
+        "not_found",
+        "invalid_request",
+        "unauthorized",
+        "forbidden",
+        "rate_limited",
+        "unavailable",
+        "internal_error"
+      ],
+      "description": "Outcome of the call. See SPECIFICATION.md section 10."
+    },
+    "error": {
+      "$ref": "#/$defs/error"
+    },
+    "id": {
+      "$ref": "#/$defs/id"
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1
+    },
+    "type": {
+      "type": "string",
+      "description": "Recommended values: service, product, course, event, program, publication, resource, membership, other."
+    },
+    "description": {
+      "type": "string",
+      "minLength": 1
+    },
+    "url": {
+      "$ref": "#/$defs/https_url"
+    },
+    "category": {
+      "type": "string"
+    },
+    "audience": {
+      "type": "string"
+    },
+    "delivery": {
+      "type": "string",
+      "enum": [
+        "online",
+        "in_person",
+        "hybrid",
+        "physical_goods",
+        "digital_goods",
+        "other"
+      ]
+    },
+    "regions": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Where the offering is available (ISO 3166 codes or free text)."
+    },
+    "price": {
+      "type": "object",
+      "description": "Indicative public pricing. Omit if not published.",
+      "properties": {
+        "amount": {
+          "type": "number",
+          "minimum": 0
+        },
+        "currency": {
+          "type": "string",
+          "pattern": "^[A-Z]{3}$",
+          "description": "ISO 4217 code."
+        },
+        "unit": {
+          "type": "string",
+          "description": "e.g. 'per day', 'per seat', 'one-time'."
+        },
+        "text": {
+          "type": "string",
+          "description": "Free-text price, e.g. 'From $5,000' or 'Contact for quote'."
+        }
+      }
+    },
+    "engagement_url": {
+      "$ref": "#/$defs/https_url",
+      "description": "Where a human can enquire about, book or buy this offering."
+    },
+    "updated_at": {
+      "$ref": "#/$defs/timestamp"
+    },
+    "content_format": {
+      "$ref": "#/$defs/content_format"
+    },
+    "content": {
+      "type": "string",
+      "description": "Full description of the offering."
+    },
+    "availability": {
+      "type": "string",
+      "enum": [
+        "available",
+        "limited",
+        "unavailable",
+        "discontinued",
+        "preorder",
+        "on_request"
+      ],
+      "description": "General availability as published. For bookable slots use the Transactional level."
+    },
+    "duration": {
+      "type": "string",
+      "description": "Typical duration, e.g. 'P1D' (ISO 8601) or '6-8 weeks'."
+    },
+    "attributes": {
+      "type": "array",
+      "description": "Specifications or key facts as name/value pairs.",
+      "items": {
+        "type": "object",
+        "required": [
+          "name",
+          "value"
+        ],
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "value": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "faqs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "question",
+          "answer"
+        ],
+        "properties": {
+          "question": {
+            "type": "string"
+          },
+          "answer": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "related_people": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Person ids (people module) involved in delivering the offering."
+    },
+    "transaction_types": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Transaction type ids (Transactional level) that apply to this offering."
+    },
+    "ext": {
+      "$ref": "#/$defs/ext"
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "const": "ok"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "id",
+          "name",
+          "description",
+          "url",
+          "content_format",
+          "content"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "enum": [
+              "not_found",
+              "invalid_request",
+              "unauthorized",
+              "forbidden",
+              "rate_limited",
+              "unavailable",
+              "internal_error"
+            ]
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "error"
+        ]
+      }
+    }
+  ],
+  "$defs": {
+    "content_format": {
+      "type": "string",
+      "enum": [
+        "text/markdown",
+        "text/plain"
+      ],
+      "description": "Media type of the content field."
+    },
+    "error": {
+      "type": "object",
+      "description": "Present when status is an error status.",
+      "required": [
+        "message"
+      ],
+      "properties": {
+        "message": {
+          "type": "string",
+          "description": "Human-readable explanation."
+        },
+        "retry_after_seconds": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "For rate_limited/unavailable: when the client may retry."
+        }
+      }
+    },
+    "ext": {
+      "type": "object",
+      "description": "Site-specific extension fields. Clients MUST ignore members they do not understand."
+    },
+    "https_url": {
+      "type": "string",
+      "format": "uri",
+      "pattern": "^https://",
+      "description": "Absolute HTTPS URL."
+    },
+    "id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 512,
+      "description": "Stable identifier, unique within its collection on this site."
+    },
+    "timestamp": {
+      "type": "string",
+      "description": "RFC 3339 date-time (e.g. 2026-11-01T09:00:00Z) or full-date (e.g. 2026-11-01).",
+      "anyOf": [
+        {
+          "format": "date-time"
+        },
+        {
+          "format": "date"
+        }
+      ]
+    }
+  }
+}

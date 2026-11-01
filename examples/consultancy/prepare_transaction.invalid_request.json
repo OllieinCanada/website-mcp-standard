@@ -1,0 +1,7 @@
+{
+  "status": "invalid_request",
+  "error": { "message": "The details do not match the transaction type's details_schema." },
+  "issues": [
+    { "field": "email", "message": "Required." }
+  ]
+}

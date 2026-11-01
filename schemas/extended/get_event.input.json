@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:mcpwp:0.1:extended:get_event:input",
+  "title": "get_event input",
+  "description": "Identify the event by exactly one of id or url.",
+  "type": "object",
+  "properties": {
+    "id": {
+      "$ref": "#/$defs/id"
+    },
+    "url": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Absolute URL on a site host, or a root-relative path."
+    }
+  },
+  "$defs": {
+    "id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 512,
+      "description": "Stable identifier, unique within its collection on this site."
+    }
+  }
+}

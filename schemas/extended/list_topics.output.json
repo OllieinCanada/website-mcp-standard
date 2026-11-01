@@ -1,0 +1,140 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:mcpwp:0.1:extended:list_topics:output",
+  "title": "list_topics output",
+  "description": "Topics and series that can be used to filter search_insights and latest_insights.",
+  "type": "object",
+  "required": [
+    "status"
+  ],
+  "properties": {
+    "status": {
+      "type": "string",
+      "enum": [
+        "ok",
+        "invalid_request",
+        "not_found",
+        "unauthorized",
+        "forbidden",
+        "rate_limited",
+        "unavailable",
+        "internal_error"
+      ],
+      "description": "Outcome of the call. See SPECIFICATION.md section 10."
+    },
+    "error": {
+      "$ref": "#/$defs/error"
+    },
+    "topics": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/taxon"
+      }
+    },
+    "series": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/taxon"
+      }
+    },
+    "total_insights": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "ext": {
+      "$ref": "#/$defs/ext"
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "const": "ok"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "topics"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "enum": [
+              "invalid_request",
+              "not_found",
+              "unauthorized",
+              "forbidden",
+              "rate_limited",
+              "unavailable",
+              "internal_error"
+            ]
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "error"
+        ]
+      }
+    }
+  ],
+  "$defs": {
+    "error": {
+      "type": "object",
+      "description": "Present when status is an error status.",
+      "required": [
+        "message"
+      ],
+      "properties": {
+        "message": {
+          "type": "string",
+          "description": "Human-readable explanation."
+        },
+        "retry_after_seconds": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "For rate_limited/unavailable: when the client may retry."
+        }
+      }
+    },
+    "ext": {
+      "type": "object",
+      "description": "Site-specific extension fields. Clients MUST ignore members they do not understand."
+    },
+    "id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 512,
+      "description": "Stable identifier, unique within its collection on this site."
+    },
+    "taxon": {
+      "type": "object",
+      "required": [
+        "id",
+        "name"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "description": {
+          "type": "string"
+        },
+        "count": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Number of published insights."
+        }
+      }
+    }
+  }
+}

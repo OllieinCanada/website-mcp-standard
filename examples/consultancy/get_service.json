@@ -1,0 +1,26 @@
+{
+  "status": "ok",
+  "id": "exec-ai-workshop",
+  "name": "Executive AI Workshop",
+  "type": "course",
+  "category": "Training",
+  "description": "A one-day workshop on AI opportunities, risks and governance for leadership teams.",
+  "url": "https://www.example.com/services/exec-ai-workshop",
+  "audience": "Executive and senior leadership teams (up to 12 people)",
+  "delivery": "in_person",
+  "regions": ["CA"],
+  "price": { "amount": 6000, "currency": "CAD", "unit": "per workshop" },
+  "availability": "available",
+  "duration": "P1D",
+  "content_format": "text/markdown",
+  "content": "## What you get\n\n- A shared vocabulary for AI across the leadership team\n- A shortlist of three high-value use cases\n- A first-draft AI usage policy\n",
+  "attributes": [
+    { "name": "Group size", "value": "Up to 12 participants" },
+    { "name": "Materials", "value": "Workbook and slides provided" }
+  ],
+  "faqs": [
+    { "question": "Can it be delivered online?", "answer": "Yes, as two half-day sessions." }
+  ],
+  "related_people": ["alex-rivera"],
+  "transaction_types": ["register-workshop"]
+}

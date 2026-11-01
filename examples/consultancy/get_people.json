@@ -1,0 +1,15 @@
+{
+  "status": "ok",
+  "people": [
+    {
+      "id": "alex-rivera",
+      "name": "Alex Rivera",
+      "role": "Principal Consultant",
+      "summary": "Twenty years in enterprise architecture; leads strategy engagements.",
+      "url": "https://www.example.com/about/alex-rivera",
+      "expertise": ["AI strategy", "AI governance", "Enterprise architecture"],
+      "links": [{ "type": "linkedin", "label": "LinkedIn", "url": "https://www.linkedin.com/in/example" }]
+    }
+  ],
+  "next_cursor": null
+}

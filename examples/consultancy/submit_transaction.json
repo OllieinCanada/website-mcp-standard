@@ -1,0 +1,14 @@
+{
+  "status": "ok",
+  "transaction": {
+    "transaction_id": "txn_01HZX4Q8K7M2",
+    "type": "book-discovery-call",
+    "status": "confirmed",
+    "summary": "Discovery call booked for Wednesday 4 November 2026, 10:00-10:30 Pacific. Confirmation sent to jordan@example.net.",
+    "confirmation_code": "NW-48213",
+    "receipt_url": "https://www.example.com/bookings/NW-48213",
+    "cancellable_until": "2026-11-04T16:00:00Z",
+    "created_at": "2026-11-01T21:00:00Z",
+    "updated_at": "2026-11-01T21:02:10Z"
+  }
+}

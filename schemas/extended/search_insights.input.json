@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "urn:arwp:0.1:insights:search_insights:input",
+  "$id": "urn:mcpwp:0.1:extended:search_insights:input",
   "title": "search_insights input",
   "description": "Search published insights. All arguments are optional; with none, returns insights newest first.",
   "type": "object",

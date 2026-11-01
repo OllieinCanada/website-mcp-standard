@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "urn:arwp:0.1:core:get_page:input",
+  "$id": "urn:mcpwp:0.1:core:get_page:input",
   "title": "get_page input",
   "description": "Identify the page by exactly one of id or url. (Not expressed as oneOf because several MCP clients reject top-level combinators.)",
   "type": "object",

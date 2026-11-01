@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:mcpwp:0.1:transactional:submit_transaction:input",
+  "title": "submit_transaction input",
+  "description": "Commit a prepared transaction after the user has approved its summary.",
+  "type": "object",
+  "properties": {
+    "transaction_id": {
+      "type": "string",
+      "description": "From prepare_transaction."
+    },
+    "idempotency_key": {
+      "type": "string",
+      "minLength": 16,
+      "maxLength": 128,
+      "description": "Client-generated unique key; retries with the same key return the original result."
+    },
+    "user_confirmed": {
+      "type": "boolean",
+      "const": true,
+      "description": "Asserts the user approved the exact summary returned by prepare_transaction."
+    }
+  },
+  "required": [
+    "transaction_id",
+    "idempotency_key",
+    "user_confirmed"
+  ]
+}

@@ -1,0 +1,190 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:mcpwp:0.1:transactional:list_transaction_types:output",
+  "title": "list_transaction_types output",
+  "description": "Transaction types with their requirements, consequences and controls.",
+  "type": "object",
+  "required": [
+    "status"
+  ],
+  "properties": {
+    "status": {
+      "type": "string",
+      "enum": [
+        "ok",
+        "invalid_request",
+        "not_found",
+        "unauthorized",
+        "forbidden",
+        "rate_limited",
+        "unavailable",
+        "internal_error"
+      ],
+      "description": "Outcome of the call. See SPECIFICATION.md section 10."
+    },
+    "error": {
+      "$ref": "#/$defs/error"
+    },
+    "transaction_types": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "description",
+          "auth_required",
+          "details_schema",
+          "consequences"
+        ],
+        "properties": {
+          "id": {
+            "$ref": "#/$defs/id"
+          },
+          "name": {
+            "type": "string",
+            "minLength": 1
+          },
+          "description": {
+            "type": "string",
+            "minLength": 1
+          },
+          "consequences": {
+            "type": "string",
+            "minLength": 1,
+            "description": "What submitting creates or commits to, e.g. 'Creates a booking; no payment is taken.'"
+          },
+          "offering_ids": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "auth_required": {
+            "type": "boolean",
+            "description": "Whether submit_transaction requires an authenticated user."
+          },
+          "scopes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "OAuth scopes needed, if auth_required."
+          },
+          "details_schema": {
+            "type": "object",
+            "description": "JSON Schema for the details argument of prepare_transaction."
+          },
+          "uses_availability": {
+            "type": "boolean",
+            "description": "true if check_availability applies and a slot_id is needed."
+          },
+          "payment": {
+            "type": "string",
+            "enum": [
+              "none",
+              "redirect",
+              "invoice",
+              "on_site"
+            ],
+            "description": "How payment, if any, is taken. Card data never passes through tools."
+          },
+          "cancellable": {
+            "type": "boolean"
+          },
+          "cancellation_policy": {
+            "type": "string"
+          },
+          "terms_url": {
+            "$ref": "#/$defs/https_url"
+          },
+          "human_url": {
+            "$ref": "#/$defs/https_url",
+            "description": "Where a human can complete the same transaction on the website."
+          },
+          "test": {
+            "type": "boolean",
+            "description": "true for a sandbox type that runs the full lifecycle with no real-world effect (for conformance testing)."
+          }
+        }
+      }
+    },
+    "ext": {
+      "$ref": "#/$defs/ext"
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "const": "ok"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "transaction_types"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "enum": [
+              "invalid_request",
+              "not_found",
+              "unauthorized",
+              "forbidden",
+              "rate_limited",
+              "unavailable",
+              "internal_error"
+            ]
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "error"
+        ]
+      }
+    }
+  ],
+  "$defs": {
+    "error": {
+      "type": "object",
+      "description": "Present when status is an error status.",
+      "required": [
+        "message"
+      ],
+      "properties": {
+        "message": {
+          "type": "string",
+          "description": "Human-readable explanation."
+        },
+        "retry_after_seconds": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "For rate_limited/unavailable: when the client may retry."
+        }
+      }
+    },
+    "ext": {
+      "type": "object",
+      "description": "Site-specific extension fields. Clients MUST ignore members they do not understand."
+    },
+    "https_url": {
+      "type": "string",
+      "format": "uri",
+      "pattern": "^https://",
+      "description": "Absolute HTTPS URL."
+    },
+    "id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 512,
+      "description": "Stable identifier, unique within its collection on this site."
+    }
+  }
+}

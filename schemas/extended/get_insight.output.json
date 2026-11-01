@@ -1,8 +1,8 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "urn:arwp:0.1:insights:latest_insights:output",
-  "title": "latest_insights output",
-  "description": "Insights ordered by published_at, newest first.",
+  "$id": "urn:mcpwp:0.1:extended:get_insight:output",
+  "title": "get_insight output",
+  "description": "One complete insight with metadata.",
   "type": "object",
   "required": [
     "status"
@@ -12,23 +12,86 @@
       "type": "string",
       "enum": [
         "ok",
-        "invalid_request",
         "not_found",
+        "invalid_request",
         "unauthorized",
         "forbidden",
         "rate_limited",
         "unavailable",
         "internal_error"
       ],
-      "description": "Outcome of the call. See SPECIFICATION.md section 7."
+      "description": "Outcome of the call. See SPECIFICATION.md section 10."
     },
     "error": {
       "$ref": "#/$defs/error"
     },
-    "results": {
+    "id": {
+      "$ref": "#/$defs/id",
+      "description": "Stable identifier (typically the slug), accepted by get_insight."
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1
+    },
+    "url": {
+      "$ref": "#/$defs/https_url"
+    },
+    "summary": {
+      "type": "string"
+    },
+    "type": {
+      "type": "string",
+      "description": "Recommended values: article, news, research, case_study, video, podcast, other."
+    },
+    "published_at": {
+      "$ref": "#/$defs/timestamp"
+    },
+    "updated_at": {
+      "$ref": "#/$defs/timestamp"
+    },
+    "authors": {
       "type": "array",
       "items": {
-        "$ref": "#/$defs/insight_summary"
+        "type": "string"
+      }
+    },
+    "topics": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Topic ids from list_topics."
+    },
+    "series": {
+      "type": "string",
+      "description": "Series id from list_topics, if part of a series."
+    },
+    "language": {
+      "$ref": "#/$defs/language"
+    },
+    "content_format": {
+      "$ref": "#/$defs/content_format"
+    },
+    "content": {
+      "type": "string"
+    },
+    "references": {
+      "type": "array",
+      "description": "Sources cited by the insight.",
+      "items": {
+        "type": "object",
+        "required": [
+          "url"
+        ],
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "url": {
+            "type": "string",
+            "format": "uri"
+          }
+        }
       }
     },
     "ext": {
@@ -46,7 +109,12 @@
       },
       "then": {
         "required": [
-          "results"
+          "id",
+          "title",
+          "url",
+          "published_at",
+          "content_format",
+          "content"
         ]
       }
     },
@@ -55,8 +123,8 @@
         "properties": {
           "status": {
             "enum": [
-              "invalid_request",
               "not_found",
+              "invalid_request",
               "unauthorized",
               "forbidden",
               "rate_limited",
@@ -74,6 +142,14 @@
     }
   ],
   "$defs": {
+    "content_format": {
+      "type": "string",
+      "enum": [
+        "text/markdown",
+        "text/plain"
+      ],
+      "description": "Media type of the content field."
+    },
     "error": {
       "type": "object",
       "description": "Present when status is an error status.",
@@ -107,61 +183,6 @@
       "minLength": 1,
       "maxLength": 512,
       "description": "Stable identifier, unique within its collection on this site."
-    },
-    "insight_summary": {
-      "type": "object",
-      "required": [
-        "id",
-        "title",
-        "url",
-        "published_at"
-      ],
-      "properties": {
-        "id": {
-          "$ref": "#/$defs/id",
-          "description": "Stable identifier (typically the slug), accepted by get_insight."
-        },
-        "title": {
-          "type": "string",
-          "minLength": 1
-        },
-        "url": {
-          "$ref": "#/$defs/https_url"
-        },
-        "summary": {
-          "type": "string"
-        },
-        "type": {
-          "type": "string",
-          "description": "Recommended values: article, news, research, case_study, video, podcast, other."
-        },
-        "published_at": {
-          "$ref": "#/$defs/timestamp"
-        },
-        "updated_at": {
-          "$ref": "#/$defs/timestamp"
-        },
-        "authors": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        },
-        "topics": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          },
-          "description": "Topic ids from list_topics."
-        },
-        "series": {
-          "type": "string",
-          "description": "Series id from list_topics, if part of a series."
-        },
-        "language": {
-          "$ref": "#/$defs/language"
-        }
-      }
     },
     "language": {
       "type": "string",

@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:mcpwp:0.1:transactional:get_transaction_status:input",
+  "title": "get_transaction_status input",
+  "description": "Current state and audit history of a transaction.",
+  "type": "object",
+  "properties": {
+    "transaction_id": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "transaction_id"
+  ]
+}

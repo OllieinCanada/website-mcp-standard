@@ -1,0 +1,18 @@
+{
+  "status": "ok",
+  "transaction": {
+    "transaction_id": "txn_01HZX4Q8K7M2",
+    "type": "book-discovery-call",
+    "status": "prepared",
+    "summary": "Book a free 30-minute discovery call with Northwind Advisory on Wednesday 4 November 2026, 10:00-10:30 Pacific, for Jordan Smith (jordan@example.net) about 'AI policy for a 40-person firm'. A confirmation email will be sent to jordan@example.net. No payment is taken. Free cancellation up to 2 hours before.",
+    "details": {
+      "name": "Jordan Smith",
+      "email": "jordan@example.net",
+      "topic": "AI policy for a 40-person firm",
+      "slot_id": "dc-2026-11-04T10:00"
+    },
+    "total": { "amount": 0, "currency": "CAD" },
+    "expires_at": "2026-11-01T21:15:00Z",
+    "created_at": "2026-11-01T21:00:00Z"
+  }
+}

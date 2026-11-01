@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:mcpwp:0.1:extended:get_people:input",
+  "title": "get_people input",
+  "description": "List people the operator publishes (team, staff, speakers, authors).",
+  "type": "object",
+  "properties": {
+    "query": {
+      "type": "string",
+      "maxLength": 200,
+      "description": "Match on name, role or expertise."
+    },
+    "role": {
+      "type": "string"
+    },
+    "limit": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 100,
+      "default": 50,
+      "description": "Maximum number of items to return (default 50). Servers MAY return fewer."
+    },
+    "cursor": {
+      "$ref": "#/$defs/cursor"
+    }
+  },
+  "$defs": {
+    "cursor": {
+      "type": "string",
+      "description": "Opaque pagination token. Absent or null when there are no more results."
+    }
+  }
+}

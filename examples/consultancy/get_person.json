@@ -1,0 +1,13 @@
+{
+  "status": "ok",
+  "id": "alex-rivera",
+  "name": "Alex Rivera",
+  "role": "Principal Consultant",
+  "url": "https://www.example.com/about/alex-rivera",
+  "expertise": ["AI strategy", "AI governance", "Enterprise architecture"],
+  "content_format": "text/markdown",
+  "content": "Alex has spent twenty years designing enterprise systems...\n",
+  "credentials": [
+    { "name": "TOGAF 9 Certified", "issuer": "The Open Group", "year": 2015 }
+  ]
+}

@@ -1,8 +1,8 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "urn:arwp:0.1:insights:get_insight:output",
-  "title": "get_insight output",
-  "description": "One complete insight with metadata.",
+  "$id": "urn:mcpwp:0.1:extended:get_event:output",
+  "title": "get_event output",
+  "description": "Full details of one event.",
   "type": "object",
   "required": [
     "status"
@@ -11,63 +11,107 @@
     "status": {
       "type": "string",
       "enum": [
-        "ok",
-        "not_found",
-        "invalid_request",
-        "unauthorized",
-        "forbidden",
-        "rate_limited",
-        "unavailable",
-        "internal_error"
-      ],
-      "description": "Outcome of the call. See SPECIFICATION.md section 7."
+        "scheduled",
+        "postponed",
+        "rescheduled",
+        "cancelled",
+        "sold_out",
+        "completed"
+      ]
     },
     "error": {
       "$ref": "#/$defs/error"
     },
     "id": {
-      "$ref": "#/$defs/id",
-      "description": "Stable identifier (typically the slug), accepted by get_insight."
+      "$ref": "#/$defs/id"
     },
-    "title": {
+    "name": {
       "type": "string",
       "minLength": 1
+    },
+    "description": {
+      "type": "string"
     },
     "url": {
       "$ref": "#/$defs/https_url"
     },
-    "summary": {
+    "start": {
+      "type": "string",
+      "format": "date-time",
+      "description": "RFC 3339 with offset."
+    },
+    "end": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "timezone": {
+      "type": "string",
+      "description": "IANA time zone, e.g. America/Vancouver."
+    },
+    "location": {
+      "type": "object",
+      "required": [
+        "mode"
+      ],
+      "properties": {
+        "mode": {
+          "type": "string",
+          "enum": [
+            "online",
+            "in_person",
+            "hybrid"
+          ]
+        },
+        "name": {
+          "type": "string"
+        },
+        "address": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string",
+          "format": "uri"
+        }
+      }
+    },
+    "organizer": {
       "type": "string"
     },
-    "type": {
+    "price": {
+      "type": "object",
+      "description": "Indicative public pricing. Omit if not published.",
+      "properties": {
+        "amount": {
+          "type": "number",
+          "minimum": 0
+        },
+        "currency": {
+          "type": "string",
+          "pattern": "^[A-Z]{3}$",
+          "description": "ISO 4217 code."
+        },
+        "unit": {
+          "type": "string",
+          "description": "e.g. 'per day', 'per seat', 'one-time'."
+        },
+        "text": {
+          "type": "string",
+          "description": "Free-text price, e.g. 'From $5,000' or 'Contact for quote'."
+        }
+      }
+    },
+    "registration_url": {
+      "$ref": "#/$defs/https_url"
+    },
+    "offering_id": {
       "type": "string",
-      "description": "Recommended values: article, news, research, case_study, video, podcast, other."
+      "description": "Related offering id from get_services."
     },
-    "published_at": {
-      "$ref": "#/$defs/timestamp"
-    },
-    "updated_at": {
-      "$ref": "#/$defs/timestamp"
-    },
-    "authors": {
+    "transaction_types": {
       "type": "array",
       "items": {
         "type": "string"
       }
-    },
-    "topics": {
-      "type": "array",
-      "items": {
-        "type": "string"
-      },
-      "description": "Topic ids from list_topics."
-    },
-    "series": {
-      "type": "string",
-      "description": "Series id from list_topics, if part of a series."
-    },
-    "language": {
-      "$ref": "#/$defs/language"
     },
     "content_format": {
       "$ref": "#/$defs/content_format"
@@ -75,24 +119,12 @@
     "content": {
       "type": "string"
     },
-    "references": {
+    "speakers": {
       "type": "array",
-      "description": "Sources cited by the insight.",
       "items": {
-        "type": "object",
-        "required": [
-          "url"
-        ],
-        "properties": {
-          "title": {
-            "type": "string"
-          },
-          "url": {
-            "type": "string",
-            "format": "uri"
-          }
-        }
-      }
+        "type": "string"
+      },
+      "description": "Person ids or names."
     },
     "ext": {
       "$ref": "#/$defs/ext"
@@ -110,11 +142,9 @@
       "then": {
         "required": [
           "id",
-          "title",
+          "name",
           "url",
-          "published_at",
-          "content_format",
-          "content"
+          "start"
         ]
       }
     },
@@ -183,23 +213,6 @@
       "minLength": 1,
       "maxLength": 512,
       "description": "Stable identifier, unique within its collection on this site."
-    },
-    "language": {
-      "type": "string",
-      "description": "BCP 47 language tag, e.g. 'en' or 'en-CA'.",
-      "pattern": "^[A-Za-z]{2,3}(-[A-Za-z0-9]{1,8})*$"
-    },
-    "timestamp": {
-      "type": "string",
-      "description": "RFC 3339 date-time (e.g. 2026-11-01T09:00:00Z) or full-date (e.g. 2026-11-01).",
-      "anyOf": [
-        {
-          "format": "date-time"
-        },
-        {
-          "format": "date"
-        }
-      ]
     }
   }
 }
