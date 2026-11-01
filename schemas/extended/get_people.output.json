@@ -1,8 +1,8 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "urn:arwp:0.1:insights:list_topics:output",
-  "title": "list_topics output",
-  "description": "Topics and series that can be used to filter search_insights and latest_insights.",
+  "$id": "urn:mcpwp:0.1:extended:get_people:output",
+  "title": "get_people output",
+  "description": "People the operator publishes on the website.",
   "type": "object",
   "required": [
     "status"
@@ -20,26 +20,26 @@
         "unavailable",
         "internal_error"
       ],
-      "description": "Outcome of the call. See SPECIFICATION.md section 7."
+      "description": "Outcome of the call. See SPECIFICATION.md section 10."
     },
     "error": {
       "$ref": "#/$defs/error"
     },
-    "topics": {
+    "people": {
       "type": "array",
       "items": {
-        "$ref": "#/$defs/taxon"
+        "$ref": "#/$defs/person"
       }
     },
-    "series": {
-      "type": "array",
-      "items": {
-        "$ref": "#/$defs/taxon"
-      }
-    },
-    "total_insights": {
-      "type": "integer",
-      "minimum": 0
+    "next_cursor": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/cursor"
+        },
+        {
+          "type": "null"
+        }
+      ]
     },
     "ext": {
       "$ref": "#/$defs/ext"
@@ -56,7 +56,7 @@
       },
       "then": {
         "required": [
-          "topics"
+          "people"
         ]
       }
     },
@@ -84,6 +84,10 @@
     }
   ],
   "$defs": {
+    "cursor": {
+      "type": "string",
+      "description": "Opaque pagination token. Absent or null when there are no more results."
+    },
     "error": {
       "type": "object",
       "description": "Present when status is an error status.",
@@ -106,13 +110,38 @@
       "type": "object",
       "description": "Site-specific extension fields. Clients MUST ignore members they do not understand."
     },
+    "https_url": {
+      "type": "string",
+      "format": "uri",
+      "pattern": "^https://",
+      "description": "Absolute HTTPS URL."
+    },
     "id": {
       "type": "string",
       "minLength": 1,
       "maxLength": 512,
       "description": "Stable identifier, unique within its collection on this site."
     },
-    "taxon": {
+    "link": {
+      "type": "object",
+      "required": [
+        "url"
+      ],
+      "properties": {
+        "type": {
+          "type": "string",
+          "description": "Recommended: website, email, linkedin, social, booking, other."
+        },
+        "label": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string",
+          "format": "uri"
+        }
+      }
+    },
+    "person": {
       "type": "object",
       "required": [
         "id",
@@ -126,13 +155,30 @@
           "type": "string",
           "minLength": 1
         },
-        "description": {
+        "role": {
+          "type": "string",
+          "description": "Job title or role, e.g. 'Principal Consultant'."
+        },
+        "summary": {
           "type": "string"
         },
-        "count": {
-          "type": "integer",
-          "minimum": 0,
-          "description": "Number of published insights."
+        "url": {
+          "$ref": "#/$defs/https_url"
+        },
+        "image_url": {
+          "$ref": "#/$defs/https_url"
+        },
+        "expertise": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "links": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/link"
+          }
         }
       }
     }

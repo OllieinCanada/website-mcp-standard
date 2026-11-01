@@ -1,0 +1,12 @@
+{
+  "status": "ok",
+  "transaction": {
+    "transaction_id": "txn_01HZX4Q8K7M2",
+    "type": "book-discovery-call",
+    "status": "cancelled",
+    "summary": "Discovery call on 4 November 2026 cancelled. A cancellation email has been sent.",
+    "confirmation_code": "NW-48213",
+    "updated_at": "2026-11-02T18:30:00Z"
+  },
+  "refund": "No payment was taken."
+}

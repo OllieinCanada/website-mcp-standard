@@ -1,0 +1,51 @@
+{
+  "status": "ok",
+  "transaction_types": [
+    {
+      "id": "book-discovery-call",
+      "name": "Book a discovery call",
+      "description": "Book a free 30-minute video call with a consultant.",
+      "consequences": "Creates a calendar booking and sends a confirmation email to the attendee. No payment is taken.",
+      "auth_required": false,
+      "details_schema": {
+        "type": "object",
+        "required": ["name", "email", "topic"],
+        "properties": {
+          "name": { "type": "string" },
+          "email": { "type": "string", "format": "email" },
+          "organisation": { "type": "string" },
+          "topic": { "type": "string", "maxLength": 500 }
+        }
+      },
+      "uses_availability": true,
+      "payment": "none",
+      "cancellable": true,
+      "cancellation_policy": "Free cancellation up to 2 hours before the call.",
+      "human_url": "https://www.example.com/book"
+    },
+    {
+      "id": "register-workshop",
+      "name": "Request an Executive AI Workshop",
+      "description": "Reserve a workshop date for your leadership team.",
+      "consequences": "Reserves the date and issues an invoice for a 50% deposit, payable within 14 days.",
+      "offering_ids": ["exec-ai-workshop"],
+      "auth_required": true,
+      "scopes": ["transactions:write"],
+      "details_schema": {
+        "type": "object",
+        "required": ["organisation", "participants"],
+        "properties": {
+          "organisation": { "type": "string" },
+          "participants": { "type": "integer", "minimum": 1, "maximum": 12 },
+          "notes": { "type": "string" }
+        }
+      },
+      "uses_availability": true,
+      "payment": "invoice",
+      "cancellable": true,
+      "cancellation_policy": "Deposit refundable up to 30 days before the workshop.",
+      "terms_url": "https://www.example.com/terms/workshops",
+      "human_url": "https://www.example.com/services/exec-ai-workshop"
+    }
+  ]
+}

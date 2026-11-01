@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "urn:arwp:0.1:insights:get_insight:input",
+  "$id": "urn:mcpwp:0.1:extended:get_insight:input",
   "title": "get_insight input",
   "description": "Identify the insight by exactly one of id or url.",
   "type": "object",

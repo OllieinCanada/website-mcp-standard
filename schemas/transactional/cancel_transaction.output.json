@@ -1,0 +1,286 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:mcpwp:0.1:transactional:cancel_transaction:output",
+  "title": "cancel_transaction output",
+  "description": "The transaction after cancellation (cancelled or cancellation_pending).",
+  "type": "object",
+  "required": [
+    "status"
+  ],
+  "properties": {
+    "status": {
+      "type": "string",
+      "enum": [
+        "ok",
+        "not_found",
+        "conflict",
+        "invalid_request",
+        "unauthorized",
+        "forbidden",
+        "rate_limited",
+        "unavailable",
+        "internal_error"
+      ],
+      "description": "Outcome of the call. See SPECIFICATION.md section 10."
+    },
+    "error": {
+      "$ref": "#/$defs/error"
+    },
+    "transaction": {
+      "$ref": "#/$defs/transaction"
+    },
+    "refund": {
+      "type": "string",
+      "description": "Plain-language refund outcome, if any."
+    },
+    "ext": {
+      "$ref": "#/$defs/ext"
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "const": "ok"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "transaction"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "enum": [
+              "not_found",
+              "conflict",
+              "invalid_request",
+              "unauthorized",
+              "forbidden",
+              "rate_limited",
+              "unavailable",
+              "internal_error"
+            ]
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "error"
+        ]
+      }
+    }
+  ],
+  "$defs": {
+    "error": {
+      "type": "object",
+      "description": "Present when status is an error status.",
+      "required": [
+        "message"
+      ],
+      "properties": {
+        "message": {
+          "type": "string",
+          "description": "Human-readable explanation."
+        },
+        "retry_after_seconds": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "For rate_limited/unavailable: when the client may retry."
+        }
+      }
+    },
+    "ext": {
+      "type": "object",
+      "description": "Site-specific extension fields. Clients MUST ignore members they do not understand."
+    },
+    "https_url": {
+      "type": "string",
+      "format": "uri",
+      "pattern": "^https://",
+      "description": "Absolute HTTPS URL."
+    },
+    "money": {
+      "type": "object",
+      "required": [
+        "amount",
+        "currency"
+      ],
+      "properties": {
+        "amount": {
+          "type": "number"
+        },
+        "currency": {
+          "type": "string",
+          "pattern": "^[A-Z]{3}$"
+        }
+      }
+    },
+    "next_action": {
+      "type": "object",
+      "description": "A step the human must complete outside the agent (e.g. payment or identity check on the website).",
+      "required": [
+        "type",
+        "url",
+        "description"
+      ],
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": [
+            "redirect"
+          ],
+          "description": "Only 'redirect' is defined in v0.1."
+        },
+        "url": {
+          "$ref": "#/$defs/https_url"
+        },
+        "description": {
+          "type": "string"
+        },
+        "expires_at": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "transaction": {
+      "type": "object",
+      "required": [
+        "transaction_id",
+        "type",
+        "status",
+        "summary"
+      ],
+      "properties": {
+        "transaction_id": {
+          "type": "string",
+          "minLength": 8,
+          "maxLength": 128,
+          "description": "Server-issued, unguessable identifier."
+        },
+        "type": {
+          "type": "string",
+          "description": "Transaction type id from list_transaction_types."
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "prepared",
+            "pending",
+            "confirmed",
+            "completed",
+            "rejected",
+            "cancellation_pending",
+            "cancelled",
+            "failed",
+            "expired"
+          ]
+        },
+        "summary": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Plain-language statement of exactly what will happen / has happened, including consequences and costs."
+        },
+        "details": {
+          "type": "object",
+          "description": "The validated details as the server will act on them."
+        },
+        "line_items": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "description",
+              "amount"
+            ],
+            "properties": {
+              "description": {
+                "type": "string"
+              },
+              "amount": {
+                "$ref": "#/$defs/money"
+              }
+            }
+          }
+        },
+        "total": {
+          "$ref": "#/$defs/money"
+        },
+        "terms_url": {
+          "$ref": "#/$defs/https_url"
+        },
+        "cancellable_until": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "expires_at": {
+          "type": "string",
+          "format": "date-time",
+          "description": "For prepared transactions: after this time submit_transaction fails with conflict."
+        },
+        "confirmation_code": {
+          "type": "string",
+          "description": "Human-facing reference, e.g. a booking number."
+        },
+        "receipt_url": {
+          "$ref": "#/$defs/https_url"
+        },
+        "next_action": {
+          "$ref": "#/$defs/next_action"
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updated_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "history": {
+          "type": "array",
+          "description": "Audit trail, oldest first.",
+          "items": {
+            "type": "object",
+            "required": [
+              "status",
+              "at"
+            ],
+            "properties": {
+              "status": {
+                "type": "string",
+                "enum": [
+                  "prepared",
+                  "pending",
+                  "confirmed",
+                  "completed",
+                  "rejected",
+                  "cancellation_pending",
+                  "cancelled",
+                  "failed",
+                  "expired"
+                ]
+              },
+              "at": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "actor": {
+                "type": "string",
+                "description": "Who caused the change, e.g. 'user via agent <client id>', 'operator', 'system'."
+              },
+              "note": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

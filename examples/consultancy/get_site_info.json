@@ -1,10 +1,25 @@
 {
   "status": "ok",
-  "arwp": {
+  "mcpwp": {
     "version": "0.1",
-    "profiles": ["core", "insights"],
+    "levels": [
+      "core",
+      "extended",
+      "transactional"
+    ],
+    "modules": [
+      "core",
+      "insights",
+      "service_details",
+      "people",
+      "events",
+      "transactions"
+    ],
     "extensions": [
-      { "tool": "get_company_profile", "description": "Detailed experience, qualifications and supporting evidence." }
+      {
+        "tool": "get_company_profile",
+        "description": "Detailed experience, qualifications and supporting evidence."
+      }
     ]
   },
   "name": "Northwind Advisory",
@@ -19,10 +34,31 @@
     "location": "Victoria, BC, Canada"
   },
   "sections": [
-    { "id": "about", "title": "About", "url": "https://www.example.com/about" },
-    { "id": "services", "title": "Services", "url": "https://www.example.com/services" },
-    { "id": "insights", "title": "Insights", "url": "https://www.example.com/insights" },
-    { "id": "contact", "title": "Contact", "url": "https://www.example.com/contact" }
+    {
+      "id": "about",
+      "title": "About",
+      "url": "https://www.example.com/about"
+    },
+    {
+      "id": "services",
+      "title": "Services",
+      "url": "https://www.example.com/services"
+    },
+    {
+      "id": "insights",
+      "title": "Insights",
+      "url": "https://www.example.com/insights"
+    },
+    {
+      "id": "events",
+      "title": "Events",
+      "url": "https://www.example.com/events"
+    },
+    {
+      "id": "contact",
+      "title": "Contact",
+      "url": "https://www.example.com/contact"
+    }
   ],
   "updated_at": "2026-10-28T17:00:00Z",
   "related": {

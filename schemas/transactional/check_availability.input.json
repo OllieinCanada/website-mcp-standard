@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:mcpwp:0.1:transactional:check_availability:input",
+  "title": "check_availability input",
+  "description": "Find available slots for a transaction type. Read-only.",
+  "type": "object",
+  "properties": {
+    "type": {
+      "type": "string",
+      "description": "Transaction type id."
+    },
+    "offering_id": {
+      "type": "string"
+    },
+    "from": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "to": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "limit": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 100,
+      "default": 20,
+      "description": "Maximum number of items to return (default 20). Servers MAY return fewer."
+    },
+    "cursor": {
+      "$ref": "#/$defs/cursor"
+    }
+  },
+  "required": [
+    "type"
+  ],
+  "$defs": {
+    "cursor": {
+      "type": "string",
+      "description": "Opaque pagination token. Absent or null when there are no more results."
+    }
+  }
+}

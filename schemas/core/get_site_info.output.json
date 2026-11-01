@@ -1,8 +1,8 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "urn:arwp:0.1:core:get_site_info:output",
+  "$id": "urn:mcpwp:0.1:core:get_site_info:output",
   "title": "get_site_info output",
-  "description": "Identity of the website and its operator, its primary sections, and its ARWP declaration.",
+  "description": "Identity of the website and its operator, its primary sections, and its MCP-WP declaration.",
   "type": "object",
   "required": [
     "status"
@@ -20,29 +20,47 @@
         "unavailable",
         "internal_error"
       ],
-      "description": "Outcome of the call. See SPECIFICATION.md section 7."
+      "description": "Outcome of the call. See SPECIFICATION.md section 10."
     },
     "error": {
       "$ref": "#/$defs/error"
     },
-    "arwp": {
+    "mcpwp": {
       "type": "object",
-      "description": "ARWP declaration (section 6).",
+      "description": "MCP-WP declaration (section 9).",
       "required": [
         "version",
-        "profiles"
+        "levels",
+        "modules"
       ],
       "properties": {
         "version": {
           "type": "string",
           "pattern": "^[0-9]+\\.[0-9]+$",
-          "description": "ARWP version implemented, e.g. '0.1'."
+          "description": "MCP-WP version implemented, e.g. '0.1'."
         },
-        "profiles": {
+        "levels": {
           "type": "array",
-          "description": "Profiles claimed. MUST include 'core'.",
+          "description": "Conformance levels claimed. MUST include 'core'.",
           "items": {
-            "type": "string"
+            "type": "string",
+            "enum": [
+              "core",
+              "extended",
+              "transactional"
+            ]
+          },
+          "contains": {
+            "const": "core"
+          },
+          "uniqueItems": true
+        },
+        "modules": {
+          "type": "array",
+          "description": "Modules implemented, e.g. core, insights, service_details, people, events, transactions, or x-<name>. MUST include 'core'.",
+          "items": {
+            "type": "string",
+            "pattern": "^(core|insights|service_details|people|events|transactions|x-[a-z0-9][a-z0-9_-]*)$"
           },
           "contains": {
             "const": "core"
@@ -51,7 +69,7 @@
         },
         "extensions": {
           "type": "array",
-          "description": "Optional list of site-specific tools beyond the ARWP profiles.",
+          "description": "Optional list of site-specific tools beyond the MCP-WP modules.",
           "items": {
             "type": "object",
             "required": [
@@ -185,7 +203,7 @@
       },
       "then": {
         "required": [
-          "arwp",
+          "mcpwp",
           "name",
           "description",
           "canonical_url",

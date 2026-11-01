@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "urn:arwp:0.1:core:search_site:output",
+  "$id": "urn:mcpwp:0.1:core:search_site:output",
   "title": "search_site output",
   "description": "Site-wide search results. No matches is status ok with an empty results array.",
   "type": "object",
@@ -20,7 +20,7 @@
         "unavailable",
         "internal_error"
       ],
-      "description": "Outcome of the call. See SPECIFICATION.md section 7."
+      "description": "Outcome of the call. See SPECIFICATION.md section 10."
     },
     "error": {
       "$ref": "#/$defs/error"

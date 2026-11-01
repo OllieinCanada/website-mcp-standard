@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "urn:arwp:0.1:core:get_contact:output",
+  "$id": "urn:mcpwp:0.1:core:get_contact:output",
   "title": "get_contact output",
   "description": "Public contact and engagement channels. These are links for the user to act on; get_contact never sends a message.",
   "type": "object",
@@ -21,7 +21,7 @@
         "unavailable",
         "internal_error"
       ],
-      "description": "Outcome of the call. See SPECIFICATION.md section 7."
+      "description": "Outcome of the call. See SPECIFICATION.md section 10."
     },
     "error": {
       "$ref": "#/$defs/error"

@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:mcpwp:0.1:transactional:cancel_transaction:input",
+  "title": "cancel_transaction input",
+  "description": "Cancel a transaction, where its type and state allow.",
+  "type": "object",
+  "properties": {
+    "transaction_id": {
+      "type": "string"
+    },
+    "idempotency_key": {
+      "type": "string",
+      "minLength": 16,
+      "maxLength": 128
+    },
+    "user_confirmed": {
+      "type": "boolean",
+      "const": true
+    },
+    "reason": {
+      "type": "string",
+      "maxLength": 1000
+    }
+  },
+  "required": [
+    "transaction_id",
+    "idempotency_key",
+    "user_confirmed"
+  ]
+}

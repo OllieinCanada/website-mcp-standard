@@ -1,0 +1,4 @@
+{
+  "status": "conflict",
+  "error": { "message": "The selected slot is no longer available. Call check_availability and prepare a new transaction." }
+}

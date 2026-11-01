@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "urn:arwp:0.1:core:get_services:output",
+  "$id": "urn:mcpwp:0.1:core:get_services:output",
   "title": "get_services output",
   "description": "Services, products or other offerings of the site or its operator, or not_applicable.",
   "type": "object",
@@ -21,7 +21,7 @@
         "unavailable",
         "internal_error"
       ],
-      "description": "Outcome of the call. See SPECIFICATION.md section 7."
+      "description": "Outcome of the call. See SPECIFICATION.md section 10."
     },
     "error": {
       "$ref": "#/$defs/error"

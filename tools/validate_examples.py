@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Validate the ARWP JSON Schemas and every example response against them.
+"""Validate the MCP-WP JSON Schemas and every example response against them.
 
 Usage:  pip install jsonschema && python3 tools/validate_examples.py
 

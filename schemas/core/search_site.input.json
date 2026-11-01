@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "urn:arwp:0.1:core:search_site:input",
+  "$id": "urn:mcpwp:0.1:core:search_site:input",
   "title": "search_site input",
   "description": "Search across all public content of the website.",
   "type": "object",

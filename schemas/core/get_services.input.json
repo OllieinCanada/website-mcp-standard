@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "urn:arwp:0.1:core:get_services:input",
+  "$id": "urn:mcpwp:0.1:core:get_services:input",
   "title": "get_services input",
   "description": "Optional filters and pagination for get_services.",
   "type": "object",
