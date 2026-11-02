@@ -17,8 +17,14 @@ Thank you for helping make websites usable by agents in a consistent way.
 4. **Keep the spec, schemas and examples in sync.** A change to a result field must update `SPECIFICATION.md`, the matching file in `schemas/`, and any affected examples. Then run:
 
    ```bash
+   python3 -m pip install -r requirements-dev.txt
    python3 tools/validate_examples.py
+   python3 -m unittest discover -s tests -v
    ```
+
+   Keep intentionally invalid regression payloads in tests, with an explicit
+   expected result; JSON files under `examples/` must all validate. The validator
+   rejects duplicate keys and incomplete discovery rather than skipping files.
 
 5. **Requirement IDs are permanent.** IDs take the form `MCPWP-<AREA>-<NNN>`. Do not renumber existing IDs. Retire an obsolete ID by marking it *removed* rather than reusing it.
 6. **Record changes** in `CHANGELOG.md`.

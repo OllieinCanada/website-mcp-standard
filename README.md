@@ -53,12 +53,23 @@ MCP-WP is a *profile* of MCP. It reuses MCP's transport, tool discovery, structu
 ## Validating the schemas and examples
 
 ```bash
-pip install jsonschema
+python3 -m pip install -r requirements-dev.txt
 ```
 
 ```bash
 python3 tools/validate_examples.py
+python3 -m unittest discover -s tests -v
 ```
+
+Validation rejects duplicate JSON keys, malformed JSON, invalid schemas, unmapped
+examples, duplicate output-schema mappings, and empty discovery. It checks URI and
+date-time formats using the pinned format extras. Every published example is
+expected to validate; intentionally invalid fixtures belong in regression tests.
+The summary reports discovered schemas/examples, validated examples, unmapped
+examples, and failures. A failed check exits nonzero. Fixture-directory checks can
+use `--schemas DIR --examples DIR`.
+
+GitHub Actions runs these checks on Python 3.10 and 3.14.
 
 ## Repository layout
 
