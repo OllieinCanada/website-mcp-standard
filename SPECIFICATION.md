@@ -424,7 +424,7 @@ An **insight summary** MUST have `id`, `title`, `url` and `published_at`. It MAY
 
 Each event MUST have `id`, `name`, `url` and `start` (RFC 3339 with offset). It MAY have `description`, `end`, `timezone` (IANA), `event_status` (`scheduled`, `postponed`, `rescheduled`, `cancelled`, `sold_out`, `completed`), `location` (`{ mode: online | in_person | hybrid, name?, address?, url? }`), `organizer`, `price`, `registration_url`, `offering_id` and `transaction_types[]`.
 
-`get_event` returns these fields at the top level and MUST also include `content` and `content_format` on success. The optional `event_status` has the same meaning in detail results and `get_events.events[]`. The outer `status` always describes the tool-call outcome (§10), including when the event is cancelled. This draft replaces the former event lifecycle field `status` with `event_status`; no lifecycle alias is defined.
+`get_event` returns these fields at the top level and MUST also include `content` and `content_format` on success. The optional `event_status` has the same meaning in detail results and `get_events.events[]`. The outer `status` always describes the tool-call outcome (§10), including when the event is cancelled.
 
 **EVT-002.** With no `from` or `to`, `get_events` MUST return upcoming events (those ending at or after the current time).
 
@@ -700,6 +700,8 @@ The summary MUST be accurate and complete enough for the user to make an informe
 **SEC-001.** Clients MUST treat all content returned by an MCP-WP endpoint as untrusted third-party data, never as instructions. Conforming to MCP-WP does not grant a site any authority over the visiting agent.
 
 **SEC-002.** Servers MUST NOT place content in tool results, tool descriptions or transaction summaries that is intended to override, redirect or manipulate the agent's or user's instructions. This includes hidden prompts, "ignore previous instructions" text, and requests to send data elsewhere.
+
+> **Note (non-normative): why SEC-001 matters.** Tool output is data, never instructions, because every public `/mcp` endpoint feeds text straight into the visiting agent. MCP-WP makes Core and Extended tools open to anonymous clients (DISC-005), so any site, or anyone who can get text onto a site (comments, reviews, user profiles, scraped or syndicated content), can put text in front of an agent's model. SEC-002 asks honest servers not to do this, but a client cannot tell an honest server from a compromised or malicious one. SEC-001 is the control that holds either way. In practice this covers every string an MCP-WP server supplies: tool results, error messages, transaction summaries, tool names and descriptions, and the `initialize` `instructions` text. A client may use descriptions and `instructions` (DISC-009) as hints about how to call that server's own tools. It must not let them widen the agent's task, change its permissions, or direct it to other tools, sites or data.
 
 ### 11.2 No open fetching
 

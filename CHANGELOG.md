@@ -2,9 +2,12 @@
 
 All notable changes to the MCP Website Profile (MCP-WP) are recorded here.
 
-## Unreleased
+## [Unreleased]
 
 - Separate event lifecycle into optional `event_status` in detail and list results, reserving outer `status` for call outcomes. Restore required successful detail fields and correct the duplicate-key example. This changes the draft event field name without an alias (`MCPWP-EVT-001`, `MCPWP-EVT-003`, `MCPWP-RES-001`, `MCPWP-RES-010`, `MCPWP-RES-011`).
+- Require UTC-offset suffixes on event `start` and `end` independently of optional format checkers (`MCPWP-RES-021`); reject duplicate JSON keys in the production schema/example loader.
+
+- §11.1: added a non-normative note explaining why SEC-001 matters. Every public `/mcp` endpoint feeds text straight into the visiting agent, so all server-supplied strings, including tool descriptions and `instructions`, are data, not instructions. Thanks to Sebastian Mondragon for the framing.
 
 ## [0.1] — 2026-11-01 — Proposed Draft
 

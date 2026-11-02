@@ -58,7 +58,13 @@ pip install jsonschema
 
 ```bash
 python3 tools/validate_examples.py
+python3 -m unittest discover -s tests -v
 ```
+
+Run these commands from the repository root. The validator rejects duplicate JSON
+keys in schemas and examples. Event `start` and `end` values require a UTC offset
+even without optional format-checking packages. For full date-time format checks,
+install `jsonschema[format-nongpl]` instead of bare `jsonschema`.
 
 ## Repository layout
 

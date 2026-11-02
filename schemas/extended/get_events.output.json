@@ -131,11 +131,13 @@
         "start": {
           "type": "string",
           "format": "date-time",
-          "description": "RFC 3339 with offset."
+          "description": "RFC 3339 with offset.",
+          "pattern": "(?:[Zz]|[+-][0-9]{2}:[0-9]{2})(?![\\s\\S])"
         },
         "end": {
           "type": "string",
-          "format": "date-time"
+          "format": "date-time",
+          "pattern": "(?:[Zz]|[+-][0-9]{2}:[0-9]{2})(?![\\s\\S])"
         },
         "timezone": {
           "type": "string",

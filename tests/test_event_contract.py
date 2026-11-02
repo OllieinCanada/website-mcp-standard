@@ -1,37 +1,26 @@
 """Regression coverage for MCPWP-EVT-001/003 and MCPWP-RES-001/011."""
 
 import copy
-import json
 from pathlib import Path
 import unittest
 
 from jsonschema import Draft202012Validator, FormatChecker
+from tools.validate_examples import load as load_json
 
 
 ROOT = Path(__file__).resolve().parents[1]
-
-
-def unique_object(pairs):
-    result = {}
-    for key, value in pairs:
-        if key in result:
-            raise ValueError(f"Duplicate JSON key: {key}")
-        result[key] = value
-    return result
-
-
-def load_json(path):
-    return json.loads(path.read_text(encoding="utf-8"), object_pairs_hook=unique_object)
 
 
 class EventContractTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         cls.validators = {}
+        cls.schemas = {}
         cls.examples = {}
         for tool in ("get_event", "get_events"):
             schema = load_json(ROOT / "schemas" / "extended" / f"{tool}.output.json")
             Draft202012Validator.check_schema(schema)
+            cls.schemas[tool] = schema
             cls.validators[tool] = Draft202012Validator(schema, format_checker=FormatChecker())
             cls.examples[tool] = load_json(ROOT / "examples" / "consultancy" / f"{tool}.json")
 
@@ -85,14 +74,49 @@ class EventContractTests(unittest.TestCase):
                 self.assertFalse(self.validators[tool].is_valid(example))
 
     def test_event_times_require_a_utc_offset(self):
-        example = copy.deepcopy(self.examples["get_event"])
-        example["start"] = "2026-11-19T08:00:00"
-        self.assertFalse(self.validators["get_event"].is_valid(example))
+        invalid = (
+            "2026-11-20T08:00:00", "2026-11-20", "2026-11-20T08:00:00+0800",
+            "2026-11-20T08:00:00+08", "2026-11-20T08:00:00Z\n",
+            "2026-11-20T08:00:00+00:00 ",
+        )
+        self.check_event_times(invalid, False)
 
-    def test_duplicate_keys_are_rejected_when_loading_regression_fixtures(self):
-        for source in ('{"status":"ok","status":"scheduled"}', '{"event":{"id":"a","id":"b"}}'):
-            with self.subTest(source=source), self.assertRaisesRegex(ValueError, "Duplicate JSON key"):
-                json.loads(source, object_pairs_hook=unique_object)
+    def test_event_times_accept_utc_and_numeric_offsets(self):
+        valid = (
+            "2026-11-20T08:00:00Z", "2026-11-20T08:00:00z",
+            "2026-11-20T08:00:00.123+05:30", "2026-11-20T08:00:00-08:00",
+        )
+        self.check_event_times(valid, True)
+
+    def check_event_times(self, values, expected):
+        for tool in self.schemas:
+            for validator in (self.validators[tool], Draft202012Validator(self.schemas[tool])):
+                for field in ("start", "end"):
+                    for value in values:
+                        example = copy.deepcopy(self.examples[tool])
+                        event = example if tool == "get_event" else example["events"][0]
+                        event.update(start="2026-11-19T00:00:00Z", end="2026-11-21T00:00:00Z")
+                        event[field] = value
+                        with self.subTest(tool=tool, field=field, value=value,
+                                          formats=validator.format_checker is not None):
+                            self.assertEqual(validator.is_valid(example), expected)
+
+    def test_end_remains_optional(self):
+        for tool in self.schemas:
+            example = copy.deepcopy(self.examples[tool])
+            event = example if tool == "get_event" else example["events"][0]
+            del event["end"]
+            with self.subTest(tool=tool):
+                self.validators[tool].validate(example)
+
+    def test_error_enum_matches_event_listing_until_shared_cleanup(self):
+        detail = self.schemas["get_event"]["properties"]["status"]["enum"]
+        listing = self.schemas["get_events"]["properties"]["status"]["enum"]
+        self.assertEqual(set(detail), set(listing))
+        for status in ("unauthorized", "forbidden"):
+            with self.subTest(status=status):
+                self.validators["get_event"].validate({"status": status, "error": {"message": "Unavailable"}})
+                self.assertFalse(self.validators["get_event"].is_valid({"status": status}))
 
 
 if __name__ == "__main__":
