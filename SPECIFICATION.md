@@ -422,11 +422,13 @@ An **insight summary** MUST have `id`, `title`, `url` and `published_at`. It MAY
 | `get_events` | `from?`, `to?` (RFC 3339), `query?`, `limit?` (1–100, default 20), `cursor?` | `events[]` ordered by `start`, earliest first |
 | `get_event` | exactly one of `id` or `url` | One event plus `content`, `content_format` and `speakers[]?`. `not_found` if missing. |
 
-Each event MUST have `id`, `name`, `url` and `start` (RFC 3339 with offset). It MAY have `description`, `end`, `timezone` (IANA), `status` (`scheduled`, `postponed`, `rescheduled`, `cancelled`, `sold_out`, `completed`), `location` (`{ mode: online | in_person | hybrid, name?, address?, url? }`), `organizer`, `price`, `registration_url`, `offering_id` and `transaction_types[]`.
+Each event MUST have `id`, `name`, `url` and `start` (RFC 3339 with offset). It MAY have `description`, `end`, `timezone` (IANA), `event_status` (`scheduled`, `postponed`, `rescheduled`, `cancelled`, `sold_out`, `completed`), `location` (`{ mode: online | in_person | hybrid, name?, address?, url? }`), `organizer`, `price`, `registration_url`, `offering_id` and `transaction_types[]`.
+
+`get_event` returns these fields at the top level and MUST also include `content` and `content_format` on success. The optional `event_status` has the same meaning in detail results and `get_events.events[]`. The outer `status` always describes the tool-call outcome (§10), including when the event is cancelled. This draft replaces the former event lifecycle field `status` with `event_status`; no lifecycle alias is defined.
 
 **EVT-002.** With no `from` or `to`, `get_events` MUST return upcoming events (those ending at or after the current time).
 
-**EVT-003.** Cancellations and date changes MUST be reflected in `status` as soon as they are published on the site.
+**EVT-003.** Cancellations and date changes MUST be reflected in `event_status` as soon as they are published on the site.
 
 ### 7.6 Sector-specific modules
 

@@ -11,13 +11,14 @@
     "status": {
       "type": "string",
       "enum": [
-        "scheduled",
-        "postponed",
-        "rescheduled",
-        "cancelled",
-        "sold_out",
-        "completed"
-      ]
+        "ok",
+        "not_found",
+        "invalid_request",
+        "rate_limited",
+        "unavailable",
+        "internal_error"
+      ],
+      "description": "Outcome of the call. See SPECIFICATION.md section 10."
     },
     "error": {
       "$ref": "#/$defs/error"
@@ -47,6 +48,18 @@
     "timezone": {
       "type": "string",
       "description": "IANA time zone, e.g. America/Vancouver."
+    },
+    "event_status": {
+      "type": "string",
+      "enum": [
+        "scheduled",
+        "postponed",
+        "rescheduled",
+        "cancelled",
+        "sold_out",
+        "completed"
+      ],
+      "description": "Event lifecycle, independent of the call outcome."
     },
     "location": {
       "type": "object",
@@ -144,7 +157,9 @@
           "id",
           "name",
           "url",
-          "start"
+          "start",
+          "content",
+          "content_format"
         ]
       }
     },
@@ -155,8 +170,6 @@
             "enum": [
               "not_found",
               "invalid_request",
-              "unauthorized",
-              "forbidden",
               "rate_limited",
               "unavailable",
               "internal_error"

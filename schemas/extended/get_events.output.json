@@ -141,7 +141,7 @@
           "type": "string",
           "description": "IANA time zone, e.g. America/Vancouver."
         },
-        "status": {
+        "event_status": {
           "type": "string",
           "enum": [
             "scheduled",
@@ -150,7 +150,8 @@
             "cancelled",
             "sold_out",
             "completed"
-          ]
+          ],
+          "description": "Event lifecycle, independent of the call outcome."
         },
         "location": {
           "type": "object",
