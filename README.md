@@ -6,13 +6,23 @@ GitHub account.
 
 ## 1. Submit the event fix
 
-[**CREATE THE FIRST PULL REQUEST — title and description already filled in**](https://github.com/steveh250/website-mcp-standard/compare/main...OllieinCanada:contrib/event-contract?expand=1&title=Fix+get_event+outcome%2Flifecycle+collision&body=Top-level+%60status%60+currently+uses+event+lifecycle+values%2C+rejecting+standard+%60ok%60%2Ferror+outcomes+and+leaving+success-field+requirements+ineffective.+The+published+example+also+repeats+%60status%60%2C+silently+replacing+%60ok%60+during+ordinary+JSON+parsing.%0A%0AReserve+outer+%60status%60+for+tool+outcomes+and+use+optional+%60event_status%60+consistently+in+detail+and+list+items.+Restore+successful+detail+requirements%2C+correct+both+examples%2C+and+update+the+specification%2Fchangelog.+This+is+a+draft+field-name+change+proposed+for+maintainer+agreement+%28MCPWP-EVT-001%2F003%3B+MCPWP-RES-001%2F010%2F011%29.%0A%0AValidation%3A+eight+focused+event+regressions+pass+as+part+of+the+integrated+suite+on+Python+3.10%2C+3.12%2C+and+3.14.+The+complete+integration+passes+76+tests+and+all+27+examples.+The+event-only+branch+contains+the+focused+tests%3B+later+contributions+add+the+validator+and+CI.%0A%0ATo+run+the+focused+tests+on+this+branch%3A%0A%0A%60%60%60bash%0Apython3+-m+pip+install+%22jsonschema%5Bformat-nongpl%5D%3D%3D4.26.0%22%0Apython3+tools%2Fvalidate_examples.py%0Apython3+-m+unittest+discover+-s+tests+-p+test_event_contract.py+-v%0A%60%60%60%0A)
+[**CREATE THE FIRST PULL REQUEST — title and description already filled in**](https://github.com/steveh250/website-mcp-standard/compare/main...OllieinCanada:contrib/event-contract?quick_pull=1&title=Fix+get_event+outcome%2Flifecycle+collision&body=%60get_event%60+currently+uses+event+lifecycle+values+in+outer+%60status%60%2C+rejecting+standard+success%2Ferror+results+and+allowing+incomplete+event+results.+Its+example+repeats+the+%60status%60+key.%0A%0AThis+change+reserves+outer+%60status%60+for+tool+outcomes+and+uses+optional+%60event_status%60+for+lifecycle+in+both+event+detail+and+list+items.+It+restores+required+successful+detail+fields%2C+corrects+the+examples%2C+updates+the+specification%2Fchangelog%2C+and+adds+eight+focused+regression+tests.%0A%0AThe+proposed+field-name+change+needs+maintainer+agreement.+The+full+integration+passes+76+tests+and+all+27+examples+on+Python+3.10+and+3.14%3B+this+event-only+branch+contains+the+eight+focused+tests.%0A)
 
 The link compares **steveh250/website-mcp-standard:main** with
 **OllieinCanada/website-mcp-standard:contrib/event-contract**.
 Review the seven-file diff, then click GitHub's **Create pull request** button.
 
 [Read the PR description](submission/01-event-contract-pr.md)
+
+### Pull request description — ready to copy
+
+```markdown
+`get_event` currently uses event lifecycle values in outer `status`, rejecting standard success/error results and allowing incomplete event results. Its example repeats the `status` key.
+
+This change reserves outer `status` for tool outcomes and uses optional `event_status` for lifecycle in both event detail and list items. It restores required successful detail fields, corrects the examples, updates the specification/changelog, and adds eight focused regression tests.
+
+The proposed field-name change needs maintainer agreement. The full integration passes 76 tests and all 27 examples on Python 3.10 and 3.14; this event-only branch contains the eight focused tests.
+```
 
 ## 2. Post the checker proposal
 
