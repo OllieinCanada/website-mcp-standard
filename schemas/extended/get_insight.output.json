@@ -14,8 +14,6 @@
         "ok",
         "not_found",
         "invalid_request",
-        "unauthorized",
-        "forbidden",
         "rate_limited",
         "unavailable",
         "internal_error"
@@ -125,8 +123,6 @@
             "enum": [
               "not_found",
               "invalid_request",
-              "unauthorized",
-              "forbidden",
               "rate_limited",
               "unavailable",
               "internal_error"

@@ -615,6 +615,8 @@ The summary MUST be accurate and complete enough for the user to make an informe
 
 **DECL-002.** `levels` MUST include `"extended"` if, and only if, `modules` includes at least one Extended module (`insights`, `service_details`, `people`, `events` or `x-*`). It MUST include `"transactional"` if, and only if, `modules` includes `transactions`.
 
+These equivalences apply independently: `transactions` alone does not imply Extended, while a custom `x-*` module does. The declaration schema enforces both directions of each equivalence.
+
 **DECL-003.** The declaration MUST match reality. Every declared module MUST be implemented in full (LVL-004), and `tools/list` remains the authoritative list of tools. A declaration is a claim, not proof of conformance.
 
 **DECL-004.** `extensions` is OPTIONAL. If present, it SHOULD list the site's extension tools.
@@ -674,6 +676,8 @@ The summary MUST be accurate and complete enough for the user to make an informe
 | `internal_error` | `true` | Unexpected server failure | All |
 
 **RES-010.** The MCP `isError` flag MUST be set as in the table.
+
+`unauthorized`, `forbidden` and `conflict` are Transactional-only outcomes and MUST NOT appear in Core or Extended results. Core and Extended schemas exclude them to preserve public read-only access (DISC-005).
 
 **RES-011.** When `isError` is `true`, `structuredContent` MUST include `error: { message, retry_after_seconds? }`. The `message` SHOULD help the agent correct itself (e.g. *"Use search_site to find available pages"*).
 

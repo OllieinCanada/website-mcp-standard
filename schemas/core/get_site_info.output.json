@@ -14,8 +14,6 @@
         "ok",
         "invalid_request",
         "not_found",
-        "unauthorized",
-        "forbidden",
         "rate_limited",
         "unavailable",
         "internal_error"
@@ -85,7 +83,97 @@
             }
           }
         }
-      }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "levels": {
+                "contains": {
+                  "const": "extended"
+                }
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "modules": {
+                "contains": {
+                  "anyOf": [
+                    {
+                      "enum": [
+                        "insights",
+                        "service_details",
+                        "people",
+                        "events"
+                      ]
+                    },
+                    {
+                      "type": "string",
+                      "pattern": "^x-[a-z0-9][a-z0-9_-]*$"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "modules": {
+                "not": {
+                  "contains": {
+                    "anyOf": [
+                      {
+                        "enum": [
+                          "insights",
+                          "service_details",
+                          "people",
+                          "events"
+                        ]
+                      },
+                      {
+                        "type": "string",
+                        "pattern": "^x-[a-z0-9][a-z0-9_-]*$"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "levels": {
+                "contains": {
+                  "const": "transactional"
+                }
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "modules": {
+                "contains": {
+                  "const": "transactions"
+                }
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "modules": {
+                "not": {
+                  "contains": {
+                    "const": "transactions"
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
     },
     "name": {
       "type": "string",
@@ -220,8 +308,6 @@
             "enum": [
               "invalid_request",
               "not_found",
-              "unauthorized",
-              "forbidden",
               "rate_limited",
               "unavailable",
               "internal_error"

@@ -4,6 +4,7 @@ All notable changes to the MCP Website Profile (MCP-WP) are recorded here.
 
 ## Unreleased
 
+- Enforce declaration level/module equivalences, including `x-*` Extended modules, and reject Transactional-only outcomes in all Core and Extended output schemas (`MCPWP-DECL-001`, `MCPWP-DECL-002`, `MCPWP-DISC-005`, `MCPWP-RES-010`).
 - Reject ambiguous or malformed JSON, invalid schemas, duplicate schema mappings, unmapped examples, and empty validation discovery; report coverage counts and exercise command exit codes. Add pinned format-checking dependencies and Python 3.10/3.14 CI.
 - Separate event lifecycle into optional `event_status` in detail and list results, reserving outer `status` for call outcomes. Restore required successful detail fields and correct the duplicate-key example. This changes the draft event field name without an alias (`MCPWP-EVT-001`, `MCPWP-EVT-003`, `MCPWP-RES-001`, `MCPWP-RES-010`, `MCPWP-RES-011`).
 
