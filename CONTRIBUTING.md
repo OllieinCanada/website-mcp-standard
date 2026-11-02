@@ -17,7 +17,7 @@ Thank you for helping make websites usable by agents in a consistent way.
 4. **Keep the spec, schemas and examples in sync.** A change to a result field must update `SPECIFICATION.md`, the matching file in `schemas/`, and any affected examples. Then run:
 
    ```bash
-   python3 -m pip install -r requirements-dev.txt
+   python3 -m pip install -r requirements-checker.txt
    python3 tools/validate_examples.py
    python3 -m unittest discover -s tests -v
    ```

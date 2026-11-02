@@ -737,6 +737,8 @@ These equivalences apply independently: `transactions` alone does not imply Exte
 
 A conformance checker takes a hostname, runs the checks for each declared level, and produces a report. It MUST NOT perform any real transaction. Transactional checks use only error paths and `test: true` types.
 
+The repository's `tools/check_conformance.py` implements an initial **Core-only** milestone. It calls only the five Core tools and reports Extended and Transactional behavior as NOT TESTED. Its bounded samples and representative input-schema probes do not establish universal conformance. Reports distinguish mandatory violations, recommendations, and checks that could not finish; see the README for invocation, coverage limits, and exit codes. The broader check catalogue below also describes work beyond this milestone.
+
 | # | Check | Requirements |
 |---|---|---|
 | **Core** | | |

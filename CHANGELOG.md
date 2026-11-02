@@ -4,6 +4,7 @@ All notable changes to the MCP Website Profile (MCP-WP) are recorded here.
 
 ## Unreleased
 
+- Add a bounded, unauthenticated Core-only CLI checker with the official MCP SDK, JSON/SSE support, local fixture tests, and text/JSON evidence reports. Distinguish mandatory failures, recommendations, sampled coverage, and untested behavior; include a draft maintainer use-case proposal. No transactional tools are called.
 - Require prepared-state expiry, preparation responses in `prepared`, submitted-state creation timestamps, status-response history, and actors on history entries. Keep expired drafts distinct from expired submitted transactions and synchronize the four transaction-result definitions and examples (`MCPWP-TXN-031`, `MCPWP-TXN-040`).
 - Enforce declaration level/module equivalences, including `x-*` Extended modules, and reject Transactional-only outcomes in all Core and Extended output schemas (`MCPWP-DECL-001`, `MCPWP-DECL-002`, `MCPWP-DISC-005`, `MCPWP-RES-010`).
 - Reject ambiguous or malformed JSON, invalid schemas, duplicate schema mappings, unmapped examples, and empty validation discovery; report coverage counts and exercise command exit codes. Add pinned format-checking dependencies and Python 3.10/3.14 CI.

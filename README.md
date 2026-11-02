@@ -53,7 +53,7 @@ MCP-WP is a *profile* of MCP. It reuses MCP's transport, tool discovery, structu
 ## Validating the schemas and examples
 
 ```bash
-python3 -m pip install -r requirements-dev.txt
+python3 -m pip install -r requirements-checker.txt
 ```
 
 ```bash
@@ -71,6 +71,46 @@ use `--schemas DIR --examples DIR`.
 
 GitHub Actions runs these checks on Python 3.10 and 3.14.
 
+## Checking your live Core endpoint
+
+The checker requires Python 3.10 or later. Install its dependencies, then choose
+the host you operate or are authorized to check:
+
+```bash
+python3 -m pip install -r requirements-checker.txt
+python3 tools/check_conformance.py www.example.com
+python3 tools/check_conformance.py www.example.com --format json --output report.json
+```
+
+Pass a hostname or HTTPS origin; the command derives `/mcp`. `--query TEXT`
+overrides the positive search query, which otherwise uses the first section's
+title. The checker uses the official MCP SDK and calls only `get_site_info`,
+`get_services`, `get_contact`, `search_site`, and `get_page`, without credentials.
+It supports JSON/SSE responses, session/version headers, and tool-list pagination.
+Inherited HTTP proxy and CA settings apply.
+
+Results link evidence to requirement IDs with PASS, FAIL, SKIP, and NOT TESTED
+outcomes. Recommendations such as alternate-host support and advertised output
+schemas produce warnings independently of mandatory checks. The terminal summary
+and versioned JSON report describe sampled Core checks, not certification.
+Extended and Transactional behavior remain NOT TESTED. The checker does not
+verify agreement with every human-visible page, complete search coverage,
+truthful audit records, or the actual absence of server-side effects.
+
+Runs are sequential and bounded to 10 seconds per request, 120 seconds overall,
+100 MCP requests, ten tool-list pages, ten section URLs, and ten search-result
+samples. Further content, repeated cursors, blocked prerequisites, and exhausted
+budgets are reported as incomplete coverage. Only HTTPS 307/308 redirects within
+the supplied host and its exact `www` counterpart are followed, with at most
+five hops. Other targets remain untested.
+
+Exit codes are `0` for completed mandatory Core checks, `1` for demonstrated
+violations, and `2` for incomplete assessment or invalid invocation. A completed
+run still reports the limits of representative input and content sampling.
+CI tests the checker against local fixture servers; it does not scan live sites.
+The [maintainer proposal](docs/core-checker-proposal.md) describes the contribution
+and its intended boundaries.
+
 ## Repository layout
 
 ```text
@@ -81,12 +121,15 @@ schemas/transactional/      Transactional module schemas
 examples/consultancy/       Example results: business site with all three levels
 examples/personal-blog/     Example results: personal site (shows not_applicable)
 tools/validate_examples.py  Validates every example against its schema
+tools/check_conformance.py  Runs bounded, read-only Core endpoint checks
+tests/                     Contract regressions and local MCP fixture servers
+docs/                      Maintainer-facing checker proposal
 ```
 
 ## Roadmap
 
 - **v0.1** (this draft): three levels, schemas and examples, plus AI4Enterprise alignment.
-- **Next:** a reference conformance checker, more implementations, and feedback from different site types.
+- **Next:** extend the Core checker from implementation feedback, gather more implementations, and evaluate additional conformance levels separately.
 - **v0.2:** refine the Transactional level from real implementations, add Extended modules (FAQs, locations, jobs), standardise sector modules, align with MCP discovery work (Server Cards), and support multilingual sites.
 
 ## Contributing
