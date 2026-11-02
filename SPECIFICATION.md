@@ -699,6 +699,8 @@ The summary MUST be accurate and complete enough for the user to make an informe
 
 **SEC-002.** Servers MUST NOT place content in tool results, tool descriptions or transaction summaries that is intended to override, redirect or manipulate the agent's or user's instructions. This includes hidden prompts, "ignore previous instructions" text, and requests to send data elsewhere.
 
+> **Note (non-normative): why SEC-001 matters.** Tool output is data, never instructions, because every public `/mcp` endpoint feeds text straight into the visiting agent. MCP-WP makes Core and Extended tools open to anonymous clients (DISC-005), so any site, or anyone who can get text onto a site (comments, reviews, user profiles, scraped or syndicated content), can put text in front of an agent's model. SEC-002 asks honest servers not to do this, but a client cannot tell an honest server from a compromised or malicious one. SEC-001 is the control that holds either way. In practice this covers every string an MCP-WP server supplies: tool results, error messages, transaction summaries, tool names and descriptions, and the `initialize` `instructions` text. A client may use descriptions and `instructions` (DISC-009) as hints about how to call that server's own tools. It must not let them widen the agent's task, change its permissions, or direct it to other tools, sites or data.
+
 ### 11.2 No open fetching
 
 **SEC-010.** No MCP-WP tool may act as a general-purpose proxy. Servers MUST NOT make outbound requests to URLs supplied by clients.

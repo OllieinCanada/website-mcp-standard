@@ -2,6 +2,10 @@
 
 All notable changes to the MCP Website Profile (MCP-WP) are recorded here.
 
+## [Unreleased]
+
+- §11.1: added a non-normative note explaining why SEC-001 matters. Every public `/mcp` endpoint feeds text straight into the visiting agent, so all server-supplied strings, including tool descriptions and `instructions`, are data, not instructions. Thanks to Sebastian Mondragon for the framing.
+
 ## [0.1] — 2026-11-01 — Proposed Draft
 
 First public draft.
