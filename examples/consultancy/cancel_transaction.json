@@ -6,6 +6,7 @@
     "status": "cancelled",
     "summary": "Discovery call on 4 November 2026 cancelled. A cancellation email has been sent.",
     "confirmation_code": "NW-48213",
+    "created_at": "2026-11-01T21:00:00Z",
     "updated_at": "2026-11-02T18:30:00Z"
   },
   "refund": "No payment was taken."

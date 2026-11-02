@@ -44,7 +44,40 @@
       "then": {
         "required": [
           "transaction"
-        ]
+        ],
+        "properties": {
+          "transaction": {
+            "required": [
+              "history"
+            ],
+            "allOf": [
+              {
+                "if": {
+                  "properties": {
+                    "status": {
+                      "enum": [
+                        "pending",
+                        "confirmed",
+                        "completed",
+                        "rejected",
+                        "cancellation_pending",
+                        "cancelled",
+                        "failed"
+                      ]
+                    }
+                  }
+                },
+                "then": {
+                  "properties": {
+                    "history": {
+                      "minItems": 1
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        }
       }
     },
     {
@@ -230,7 +263,8 @@
         },
         "created_at": {
           "type": "string",
-          "format": "date-time"
+          "format": "date-time",
+          "description": "Transaction creation time; required for submitted transactions (TXN-040)."
         },
         "updated_at": {
           "type": "string",
@@ -243,7 +277,8 @@
             "type": "object",
             "required": [
               "status",
-              "at"
+              "at",
+              "actor"
             ],
             "properties": {
               "status": {
@@ -274,7 +309,82 @@
             }
           }
         }
-      }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "prepared"
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "expires_at"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "enum": [
+                  "pending",
+                  "confirmed",
+                  "completed",
+                  "rejected",
+                  "cancellation_pending",
+                  "cancelled",
+                  "failed"
+                ]
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "created_at"
+            ]
+          }
+        },
+        {
+          "if": {
+            "required": [
+              "history"
+            ],
+            "properties": {
+              "status": {
+                "const": "expired"
+              },
+              "history": {
+                "contains": {
+                  "required": [
+                    "status"
+                  ],
+                  "properties": {
+                    "status": {
+                      "enum": [
+                        "pending",
+                        "confirmed",
+                        "completed",
+                        "rejected",
+                        "cancellation_pending",
+                        "cancelled",
+                        "failed"
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "created_at"
+            ]
+          }
+        }
+      ]
     }
   }
 }

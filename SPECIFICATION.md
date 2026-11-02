@@ -494,7 +494,7 @@ A **transaction type** MUST have:
 
 It MAY have `offering_ids[]`, `scopes[]`, `uses_availability`, `payment` (`none`, `redirect`, `invoice`, `on_site`), `cancellable`, `cancellation_policy`, `terms_url`, `human_url` and `test`.
 
-A **transaction** MUST have `transaction_id`, `type`, `status` and `summary`. It MAY have `details`, `line_items[]`, `total`, `terms_url`, `expires_at`, `cancellable_until`, `confirmation_code`, `receipt_url`, `next_action`, `created_at`, `updated_at` and `history[]`.
+A **transaction** MUST have `transaction_id`, `type`, `status` and `summary`. It MAY have `details`, `line_items[]`, `total`, `terms_url`, `expires_at`, `cancellable_until`, `confirmation_code`, `receipt_url`, `next_action`, `created_at`, `updated_at` and `history[]`, subject to the state- and tool-specific requirements of TXN-031 and TXN-040 below. A successful `prepare_transaction` response MUST have transaction state `prepared`.
 
 **Transaction states:**
 
@@ -573,6 +573,10 @@ The summary MUST be accurate and complete enough for the user to make an informe
 ### 8.6 Audit
 
 **TXN-040.** Every submitted transaction MUST have a stable `transaction_id` and `created_at`, and a `history[]` that records each state change with its timestamp (`at`) and `actor`. `get_transaction_status` MUST return the history.
+
+Successful `get_transaction_status` responses include `history` even for drafts; for a submitted current state (`pending`, `confirmed`, `completed`, `rejected`, `cancellation_pending`, `cancelled` or `failed`) that history is nonempty. Each returned history entry includes `status`, `at` and `actor`. Immediate `submit_transaction` and `cancel_transaction` responses may omit history, but the retained transaction record and subsequent status response still owe it. Returned transactions in those submitted states include `created_at`.
+
+`expired` can describe either an unsubmitted draft or a previously submitted transaction. An expired draft need not have submitted creation data. An expired submitted transaction retains the audit obligations above; when returned history records a submitted state, the response schemas require `created_at`. Without that history evidence, a schema cannot establish whether submission occurred. Schema validation also cannot establish that history is complete or truthful, that identifiers remain stable, or that expiry is enforced at runtime.
 
 **TXN-041.** For each state change, servers SHOULD record the authenticated user, if any, and the MCP client identity (the OAuth client id, or the `clientInfo` given at `initialize`). Records SHOULD be retained as legal and business requirements dictate.
 
