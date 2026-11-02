@@ -35,6 +35,6 @@ Submit the event fix first. The other branches contain cumulative changes and
 should be proposed in order, with each later diff refreshed after earlier work
 lands. The checker proposal should be discussed before the checker PR.
 
-This fork opens on the submission-guide branch so these actions are visible on
-its homepage. The original `main` branch and all code branches are preserved.
+This page provides the submission actions. All five code branches are
+preserved; use the event branch for the first contribution.
 No upstream PR or issue has been submitted by this setup.
