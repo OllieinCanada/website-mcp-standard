@@ -5,7 +5,7 @@ and submit them yourself. No upstream issue or pull request has been posted.
 
 ## First contribution: event-result contract
 
-[**Open the first pull request, with title and body filled in**](https://github.com/steveh250/website-mcp-standard/compare/main...OllieinCanada:website-mcp-standard:contrib/event-contract?expand=1&title=Fix+get_event+outcome%2Flifecycle+collision&body=Top-level+%60status%60+currently+uses+event+lifecycle+values%2C+rejecting+standard+%60ok%60%2Ferror+outcomes+and+leaving+success-field+requirements+ineffective.+The+published+example+also+repeats+%60status%60%2C+silently+replacing+%60ok%60+during+ordinary+JSON+parsing.%0A%0AReserve+outer+%60status%60+for+tool+outcomes+and+use+optional+%60event_status%60+consistently+in+detail+and+list+items.+Restore+successful+detail+requirements%2C+correct+both+examples%2C+and+update+the+specification%2Fchangelog.+This+is+a+draft+field-name+change+proposed+for+maintainer+agreement+%28MCPWP-EVT-001%2F003%3B+MCPWP-RES-001%2F010%2F011%29.%0A%0AValidation%3A+eight+focused+event+regressions+pass+as+part+of+the+integrated+suite+on+Python+3.10%2C+3.12%2C+and+3.14.+The+complete+integration+passes+76+tests+and+all+27+examples.+The+event-only+branch+contains+the+focused+tests%3B+later+contributions+add+the+validator+and+CI.%0A)
+[**Open the first pull request, with title and body filled in**](https://github.com/steveh250/website-mcp-standard/compare/main...OllieinCanada:contrib/event-contract?expand=1&title=Fix+get_event+outcome%2Flifecycle+collision&body=Top-level+%60status%60+currently+uses+event+lifecycle+values%2C+rejecting+standard+%60ok%60%2Ferror+outcomes+and+leaving+success-field+requirements+ineffective.+The+published+example+also+repeats+%60status%60%2C+silently+replacing+%60ok%60+during+ordinary+JSON+parsing.%0A%0AReserve+outer+%60status%60+for+tool+outcomes+and+use+optional+%60event_status%60+consistently+in+detail+and+list+items.+Restore+successful+detail+requirements%2C+correct+both+examples%2C+and+update+the+specification%2Fchangelog.+This+is+a+draft+field-name+change+proposed+for+maintainer+agreement+%28MCPWP-EVT-001%2F003%3B+MCPWP-RES-001%2F010%2F011%29.%0A%0AValidation%3A+eight+focused+event+regressions+pass+as+part+of+the+integrated+suite+on+Python+3.10%2C+3.12%2C+and+3.14.+The+complete+integration+passes+76+tests+and+all+27+examples.+The+event-only+branch+contains+the+focused+tests%3B+later+contributions+add+the+validator+and+CI.%0A%0ATo+run+the+focused+tests+on+this+branch%3A%0A%0A%60%60%60bash%0Apython3+-m+pip+install+%22jsonschema%5Bformat-nongpl%5D%3D%3D4.26.0%22%0Apython3+tools%2Fvalidate_examples.py%0Apython3+-m+unittest+discover+-s+tests+-p+test_event_contract.py+-v%0A%60%60%60%0A)
 
 Confirm the destination is **steveh250/website-mcp-standard**, base `main`, and
 head **OllieinCanada:contrib/event-contract**. Review the seven-file diff and click
@@ -53,3 +53,19 @@ with certificate verification enabled. No public endpoint was scanned.
 [**GitHub Actions runs**](https://github.com/OllieinCanada/website-mcp-standard/actions)
 now provide hosted CI results. The full suite belongs to the integrated checker
 branch; the first event branch contains its eight focused regression tests.
+
+### Hosted CI results
+
+All CI-enabled contribution branches pass on **Python 3.10 and 3.14**:
+
+| Branch | Passing run |
+| --- | --- |
+| Strict validation | [CI passed](https://github.com/OllieinCanada/website-mcp-standard/actions/runs/41376843245) |
+| Declaration/public outcomes | [CI passed](https://github.com/OllieinCanada/website-mcp-standard/actions/runs/41376860909) |
+| Transaction audit | [CI passed](https://github.com/OllieinCanada/website-mcp-standard/actions/runs/41376863237) |
+| Core checker / integration | [CI passed](https://github.com/OllieinCanada/website-mcp-standard/actions/runs/41376798582) |
+
+The initial setup failure was fixed by explicitly selecting `requirements*.txt`
+for pip caching. The fix was appended to each affected branch without rewriting
+published history. The event-only branch intentionally precedes the CI addition;
+its PR body includes standalone commands for the focused tests.

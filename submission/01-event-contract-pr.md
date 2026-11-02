@@ -3,3 +3,11 @@ Top-level `status` currently uses event lifecycle values, rejecting standard `ok
 Reserve outer `status` for tool outcomes and use optional `event_status` consistently in detail and list items. Restore successful detail requirements, correct both examples, and update the specification/changelog. This is a draft field-name change proposed for maintainer agreement (MCPWP-EVT-001/003; MCPWP-RES-001/010/011).
 
 Validation: eight focused event regressions pass as part of the integrated suite on Python 3.10, 3.12, and 3.14. The complete integration passes 76 tests and all 27 examples. The event-only branch contains the focused tests; later contributions add the validator and CI.
+
+To run the focused tests on this branch:
+
+```bash
+python3 -m pip install "jsonschema[format-nongpl]==4.26.0"
+python3 tools/validate_examples.py
+python3 -m unittest discover -s tests -p test_event_contract.py -v
+```
